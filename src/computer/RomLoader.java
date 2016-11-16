@@ -24,9 +24,12 @@ public class RomLoader {
     private final MemorySystem memory;
     private final CPU cpu;
 
+    private boolean bootReady;
+
     public RomLoader(MemorySystem memory, CPU cpu) {
         this.memory = memory;
         this.cpu = cpu;
+        this.bootReady = false;
     }
 
     public void setUI(UI ui) {
@@ -73,6 +76,10 @@ public class RomLoader {
         int start = this.memory.allocate(instructions);
         if (start != -1) {
             JOptionPane.showMessageDialog(this.ui, "Loaded " + count + (count == 1 ? " instruction. " : " instructions. ") + "Your program starts at address " + start + ".");
+            if (!this.bootReady) {
+                JOptionPane.showMessageDialog(this.ui, "No default initial program found. This program will serve as one.", "Initial Program", JOptionPane.WARNING_MESSAGE);
+                this.setBootReady();
+            }
         }
     }
 
@@ -81,24 +88,30 @@ public class RomLoader {
             return;
         }
 
-//        // Data
-//        this.memory.write(5, 0);
-//        this.memory.write(6, 1300);
-//        this.memory.write(7, 0);
-//        this.memory.write(8, 0);
-//        this.memory.write(9, 600);
-//        this.memory.write(10, 13312);
-//        this.memory.write(12, 32);
-//        this.memory.write(13, 44);
-//        this.memory.write(14, 46);
-//        this.memory.write(15, 63);
-//        this.memory.write(1303, 1);
-//        this.memory.write(1304, 1);
-        
-        this.memory.write(8, 1024);
+        // Data
+        this.memory.write(5, 0);
+        this.memory.write(6, 1300);
+        this.memory.write(7, 0);
+        this.memory.write(8, 0);
+        this.memory.write(9, 600);
         this.memory.write(10, 13312);
+        this.memory.write(12, 32);
+        this.memory.write(13, 44);
+        this.memory.write(14, 46);
+        this.memory.write(15, 63);
+        this.memory.write(1303, 1);
+        this.memory.write(1304, 1);
+        
+//        this.memory.write(8, 1024);
+//        this.memory.write(10, 13312);
 
+        this.setBootReady();
+
+        JOptionPane.showMessageDialog(this.ui, "Loaded default initial program.");
+    }
+
+    private void setBootReady() {
+        this.bootReady = true;
         this.cpu.resetRegisters();
-        JOptionPane.showMessageDialog(this.ui, "Loading initial program succeeded.");
     }
 }

@@ -44,8 +44,8 @@ opcode_dict = {
             'JGE': 017,
             }
 
-with open('./src/computer/Program 2') as in_file:
-    with open('Program 2.txt', 'w') as sys.stdout:
+with open('../src/computer/Boot Program') as in_file:
+    with open('Boot Program.txt', 'w') as sys.stdout:
         while True:
             line = in_file.readline()
             if not line:
@@ -59,7 +59,7 @@ with open('./src/computer/Program 2') as in_file:
             elif content.startswith('/*'):
                 print line,
                 
-                while True:
+                while not content.endswith('*/'):
                     line = in_file.readline()
                     if not line:
                         break
@@ -67,9 +67,7 @@ with open('./src/computer/Program 2') as in_file:
                     content = line.strip()
                     
                     print line,
-                    
-                    if content.endswith('*/'):
-                        break
+ 
                     
             else:
                 head, rest = content.split(' ', 1)

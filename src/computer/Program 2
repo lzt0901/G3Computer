@@ -307,13 +307,13 @@ JZ 1, 1, 1, 14
             // if R[3] == 0 jump to branch 3
             JZ 3, 1, 1, 19
 
-                // output sentence, word, pattern
+                // output pattern, sentence, word
                 LDR 1, 1, 0, 3
                 LDR 2, 1, 0, 2
                 LDR 3, 1, 0, 1
+                PUTS 3, _, _, 1
                 OUT 1, _, _, 1
                 OUT 2, _, _, 1
-                PUTS 3, _, _, 1
 
             // JSR to 10 and RFS in order to obtain PC + 1 into R[3]
             JSR _, 0, 0, 10

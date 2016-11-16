@@ -26,7 +26,7 @@ public class ControlPanel extends JPanel {
     }
 
     private void initComponents() {
-        JButton iplButton = new JButton("IPL");
+        JButton iplButton = new JButton("Default IPL");
         JButton loadHexButton = new JButton("Load Hex");
         JButton loadOctButton = new JButton("Load Oct");
         JButton loadBinButton = new JButton("Load Bin");

@@ -104,7 +104,9 @@ public class MemorySystem {
             if (i < instructions.size() + 2) {
                 start += i + 1;
             } else {
-                start += 1;
+                if (start != this.cpu.getInitialProgramAddress()) {
+                    start += 1;
+                }
                 break;
             }
         }

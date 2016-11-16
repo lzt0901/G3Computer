@@ -431,19 +431,19 @@ JZ 1, 1, 1, 14
             JZ 3, 1, 1, 19
             0010001101110011
 
-                // output sentence, word, pattern
+                // output pattern, sentence, word
                 LDR 1, 1, 0, 3
                 0000010101000011
                 LDR 2, 1, 0, 2
                 0000011001000010
                 LDR 3, 1, 0, 1
                 0000011101000001
+                PUTS 3, _, _, 1
+                1101011100000001
                 OUT 1, _, _, 1
                 1100100100000001
                 OUT 2, _, _, 1
                 1100101000000001
-                PUTS 3, _, _, 1
-                1101011100000001
 
             // JSR to 10 and RFS in order to obtain PC + 1 into R[3]
             JSR _, 0, 0, 10
