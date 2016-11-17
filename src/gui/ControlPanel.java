@@ -35,6 +35,10 @@ public class ControlPanel extends JPanel {
         JButton cardReaderButton = new JButton("Card Reader");
 
         iplButton.addActionListener((ActionEvent ae) -> {
+            if (!this.computer.cpu.available()) {
+                return;
+            }
+
             try {
                 computer.memory.romLoader.loadInitialProgram();
             } catch (MemoryAddressException ex) {
@@ -43,26 +47,50 @@ public class ControlPanel extends JPanel {
         });
 
         loadHexButton.addActionListener((ActionEvent ae) -> {
+            if (!this.computer.cpu.available()) {
+                return;
+            }
+
             computer.memory.romLoader.loadFromFile(16);
         });
 
         loadOctButton.addActionListener((ActionEvent ae) -> {
+            if (!this.computer.cpu.available()) {
+                return;
+            }
+
             computer.memory.romLoader.loadFromFile(8);
         });
 
         loadBinButton.addActionListener((ActionEvent ae) -> {
+            if (!this.computer.cpu.available()) {
+                return;
+            }
+
             computer.memory.romLoader.loadFromFile(2);
         });
 
         runButton.addActionListener((ActionEvent ae) -> {
+            if (!this.computer.cpu.available()) {
+                return;
+            }
+
             computer.cpu.run();
         });
 
         ssButton.addActionListener((ActionEvent ae) -> {
+            if (!this.computer.cpu.available()) {
+                return;
+            }
+
             computer.cpu.singleStep();
         });
-        
+
         cardReaderButton.addActionListener((ActionEvent ae) -> {
+            if (!this.computer.cpu.available()) {
+                return;
+            }
+
             computer.memory.cardReader.load();
         });
 

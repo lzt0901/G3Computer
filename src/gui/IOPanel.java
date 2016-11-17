@@ -101,7 +101,8 @@ public class IOPanel extends JPanel {
     }
 
     public String getStringInput() {
-        return this.inputTextField.getText();
+        // Characters are converted to lowercase.
+        return this.inputTextField.getText().toLowerCase();
     }
 
     public void setOutput(int content) {

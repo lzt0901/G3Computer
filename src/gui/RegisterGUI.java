@@ -5,10 +5,13 @@
  */
 package gui;
 
+import computer.Computer;
 import computer.Register;
 import javax.swing.*;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -16,30 +19,36 @@ import java.awt.event.ActionEvent;
  */
 public class RegisterGUI extends JPanel {
 
+    private final Computer computer;
+
     private final String name;
     private final int index;
     private final Register register;
     private JRadioButton[] radioButtons;
+    private JTextField valueField;
     private JPanel lightPanel;
 
-    public RegisterGUI(Register register, String name) {
+    public RegisterGUI(Register register, String name, Computer computer) {
         super();
+        this.computer = computer;
         this.name = name;
         this.register = register;
         this.index = -1;
         this.initComponents();
     }
 
-    public RegisterGUI(Register register, int index) {
+    public RegisterGUI(Register register, int index, Computer computer) {
         super();
+        this.computer = computer;
         this.name = null;
         this.register = register;
         this.index = index;
         this.initComponents();
     }
 
-    public RegisterGUI(Register register, String name, int index) {
+    public RegisterGUI(Register register, String name, int index, Computer computer) {
         super();
+        this.computer = computer;
         this.name = name;
         this.register = register;
         this.index = index;
@@ -76,30 +85,69 @@ public class RegisterGUI extends JPanel {
         this.radioButtons = new JRadioButton[this.register.getLength()];
         for (int i = 0; i < this.radioButtons.length; ++i) {
             this.radioButtons[i] = new JRadioButton();
+            this.radioButtons[i].addActionListener((ActionEvent ae) -> {
+                this.setTextByLights();
+            });
             this.lightPanel.add(this.radioButtons[i]);
         }
+
+        // Set TextField
+        this.valueField = new JTextField("0");
+        this.valueField.setColumns(4);
+        this.valueField.setHorizontalAlignment(SwingConstants.RIGHT);
+        this.valueField.getDocument().addDocumentListener(new DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent de) {
+                setLightsByText();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent de) {
+                setLightsByText();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent de) {
+                setLightsByText();
+            }
+
+        });
+        this.lightPanel.add(valueField);
 
         // Set button
         JButton button = new JButton("Set");
         this.lightPanel.add(button);
         button.addActionListener((ActionEvent ae) -> {
-            int value = 0;
-            for (int i = 0; i < radioButtons.length; ++i) {
-                if (radioButtons[i].isSelected()) {
-                    value |= 1 << radioButtons.length - i - 1;
-                }
+            if (!this.computer.cpu.available()) {
+                return;
             }
-            // Prohibit response for efficiency (otherwise the setRadioButtons method would be called again, which is unnecessary).
-            register.setContent(value, true);
 
-            JOptionPane.showMessageDialog(null, "Value set.");
+            try {
+                int value = Integer.parseInt(this.valueField.getText());
+                // Prohibit response for efficiency (otherwise the setRadioButtons method would be called again, which is unnecessary).
+                register.setContent(value, true);
+                JOptionPane.showMessageDialog(null, "Value set.");
+            } catch (NumberFormatException nfx) {
+                JOptionPane.showMessageDialog(null, "Invalid value. Please input again.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         // All set. Add to the parent panel.
         this.add(this.lightPanel);
     }
 
-    public void setRadioButtons(int value) {
+    private int lightsToValue() {
+        int value = 0;
+        for (int i = 0; i < radioButtons.length; ++i) {
+            if (radioButtons[i].isSelected()) {
+                value |= 1 << radioButtons.length - i - 1;
+            }
+        }
+        return value;
+    }
+
+    public void setLights(int value) {
         for (int i = this.radioButtons.length - 1; i >= 0; --i) {
             if ((value & 1) == 0) {
                 this.radioButtons[i].setSelected(false);
@@ -108,5 +156,23 @@ public class RegisterGUI extends JPanel {
             }
             value >>= 1;
         }
+    }
+
+    public void setValueText(int value) {
+        this.valueField.setText(String.valueOf(value));
+    }
+
+    private void setLightsByText() {
+        try {
+            int value = Integer.parseInt(this.valueField.getText());
+            this.setLights(value);
+        } catch (NumberFormatException nfx) {
+        }
+    }
+
+    private void setTextByLights() {
+        int value = this.lightsToValue();
+        // Prohibit response for efficiency (otherwise the setRadioButtons method would be called again, which is unnecessary).
+        this.setValueText(value);
     }
 }

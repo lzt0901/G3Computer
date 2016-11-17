@@ -90,7 +90,7 @@ public class RomLoader {
             return;
         }
 
-        // Data
+        // Directly setting memory instead of using instructions.
         this.memory.write(5, 0);
         this.memory.write(6, 1300);
         this.memory.write(7, 0);

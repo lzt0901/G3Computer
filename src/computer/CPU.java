@@ -29,6 +29,8 @@ public class CPU {
     private InterruptException interrupt;
     private boolean isRunning;
 
+    private Thread thread;
+
     private final int initialProgramAddress;
 
     public ProcessorRegisters registers;
@@ -54,12 +56,13 @@ public class CPU {
             return;
         }
 
-        new Thread(() -> {
+        this.thread = new Thread(() -> {
             this.isRunning = true;
             while (this.isRunning && this.interrupt == null) {
                 this.singleStep();
             }
-        }).start();
+        });
+        this.thread.start();
     }
 
     // Execute the instruction cycle (only one at each call)
@@ -128,9 +131,17 @@ public class CPU {
         return this.interrupt != null;
     }
 
+    public boolean available() {
+        if (this.thread != null && this.thread.isAlive()) {
+            JOptionPane.showMessageDialog(this.ui, "CPU is still running. Please wait.", "CPU Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
     private void reboot() {
         JOptionPane.showMessageDialog(this.ui, "System will reboot.", "Warning", JOptionPane.WARNING_MESSAGE);
-        
+
         this.registers.reset(this.initialProgramAddress);
         // Might need to reset others such as cache.
         // Might need to clear the printer (Or insert an empty line and reset the counter).

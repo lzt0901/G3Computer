@@ -14,7 +14,6 @@ import gui.RegisterGUI;
 public class Register {
 
     // Binding happens when ProcessorRegisters calling its setUI() method.
-
     private RegisterGUI rgui;
 
     private final int length;
@@ -50,7 +49,8 @@ public class Register {
 
     private void respondToGUI() {
         if (this.rgui != null) {
-            this.rgui.setRadioButtons(this.content);
+            this.rgui.setLights(this.content);
+            this.rgui.setValueText(this.content);
         }
     }
 }
