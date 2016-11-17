@@ -11,8 +11,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.Queue;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -114,7 +112,7 @@ public class Cache {
             writer.append(msg);
             writer.newLine();
         } catch (IOException ex) {
-            Logger.getLogger(Cache.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }
 }

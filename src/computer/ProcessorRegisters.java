@@ -47,7 +47,7 @@ public class ProcessorRegisters {
             x[i] = new Register(16);
         }
     }
-    
+
     public void reset(int initalProgramAddress) {
         this.pc.setContent(initalProgramAddress);
         this.cc.setContent(0);

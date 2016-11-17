@@ -32,7 +32,7 @@ public class ISA {
     // Decode
     public ISA(int instruction) {
         this.opcode = (instruction & 0x0000fc00) >> 10;
-        
+
         switch (this.opcode) {
             // HLT
             case 0:
@@ -87,7 +87,7 @@ public class ISA {
             default:
                 this.ignoreFetchOperand = false;
         }
-        
+
         this.r = (instruction & 0x00000300) >> 8;
         this.ix = (instruction & 0x000000c0) >> 6;
         this.i = (instruction & 0x00000020) >> 5;

@@ -28,7 +28,7 @@ public class UI extends JFrame {
     }
 
     private void initComponents() {
-        this.setSize(1200, 800);
+        this.setSize(1200, 850);
         this.setLocationRelativeTo(null);
 
         this.ioPanel = new IOPanel(this.computer);
