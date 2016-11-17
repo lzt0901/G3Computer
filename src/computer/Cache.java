@@ -10,6 +10,8 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayDeque;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Queue;
 
 /**
@@ -20,35 +22,40 @@ public class Cache {
 
     private final int lineSize;
     private final int cacheSize;
-    private final Queue<CacheLine> lines;
-    private final String filename;
+    private final Queue<Integer> tagQueue;
+    private final Map<Integer, CacheLine> lineMap;
+    
+    private final String traceFile;
+    public BufferedWriter writer;
 
     public Cache(int lineSize, int cacheSize) {
         this.lineSize = lineSize;
         this.cacheSize = cacheSize;
-        this.lines = new ArrayDeque<>();
-        this.filename = "trace.txt";
-        this.traceToFile("Cache Log", false);
+        this.tagQueue = new ArrayDeque<>();
+        this.lineMap = new HashMap<>();
+        this.traceFile = "trace.txt";
+        try {
+            this.writer = new BufferedWriter(new FileWriter(this.traceFile));
+            this.writer.append("Cache Log");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     private CacheLine find(int address) {
-        // Cache line can't overlap.
         int tag = address / this.lineSize * this.lineSize;
-        for (CacheLine line : this.lines) {
-            if (tag == line.getTag()) {
-                return line;
-            }
-        }
-        return null;
+        return this.lineMap.containsKey(tag) ? this.lineMap.get(tag) : null;
     }
 
     private CacheLine addLine(int address, MemorySystem memory) throws MemoryAddressException {
-        if (this.lines.size() >= this.cacheSize) {
-            CacheLine removed = this.lines.remove();
+        if (this.tagQueue.size() >= this.cacheSize) {
+            int tag = this.tagQueue.remove();
+            CacheLine removed = this.lineMap.remove(tag);
             this.traceRemove(removed);
         }
         CacheLine newLine = new CacheLine(this.lineSize, address, memory);
-        this.lines.add(newLine);
+        this.tagQueue.add(newLine.getTag());
+        this.lineMap.put(newLine.getTag(), newLine);
         this.traceAdd(newLine);
         return newLine;
     }
@@ -86,31 +93,31 @@ public class Cache {
     private void traceMiss(int address) {
         String msg = String.format("Cache miss for memory address %d.", address);
         System.out.println(msg);
-        this.traceToFile(msg, true);
+        this.traceToFile(msg);
     }
 
     private void traceHit(int address) {
         String msg = String.format("Cache hit for memory address %d.", address);
         System.out.println(msg);
-        this.traceToFile(msg, true);
+        this.traceToFile(msg);
     }
 
     private void traceAdd(CacheLine line) {
-        String msg = String.format("Added a new cache line with tag %d. Current number of lines: %d.", line.getTag(), this.lines.size());
+        String msg = String.format("Added a new cache line with tag %d. Current number of lines: %d.", line.getTag(), this.tagQueue.size());
         System.out.println(msg);
-        this.traceToFile(msg, true);
+        this.traceToFile(msg);
     }
 
     private void traceRemove(CacheLine line) {
-        String msg = String.format("Removed a cache line with tag %d. Current number of lines: %d.", line.getTag(), this.lines.size());
+        String msg = String.format("Removed a cache line with tag %d. Current number of lines: %d.", line.getTag(), this.tagQueue.size());
         System.out.println(msg);
-        this.traceToFile(msg, true);
+        this.traceToFile(msg);
     }
 
-    private void traceToFile(String msg, boolean toAppend) {
-        try (final BufferedWriter writer = new BufferedWriter(new FileWriter(this.filename, toAppend))) {
-            writer.append(msg);
-            writer.newLine();
+    private void traceToFile(String msg) {
+        try {
+            this.writer.newLine();
+            this.writer.append(msg);
         } catch (IOException ex) {
             ex.printStackTrace();
         }

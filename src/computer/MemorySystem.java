@@ -25,7 +25,8 @@ public class MemorySystem {
     // Size of main memory
     private final int size;
     private int[] mainMemory;
-    private final Cache cache;
+    
+    public final Cache cache;
 
     // Outer devices that are integrated into memory system.
     public RomLoader romLoader;

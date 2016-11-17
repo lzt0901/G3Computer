@@ -7,6 +7,7 @@ package gui;
 
 import computer.Computer;
 import java.awt.BorderLayout;
+import java.io.IOException;
 import javax.swing.JFrame;
 
 /**
@@ -28,7 +29,7 @@ public class UI extends JFrame {
     }
 
     private void initComponents() {
-        this.setSize(1200, 850);
+        this.setSize(1250, 950);
         this.setLocationRelativeTo(null);
 
         this.ioPanel = new IOPanel(this.computer);
@@ -43,5 +44,15 @@ public class UI extends JFrame {
         // If it's not set the frame would just be hidden and the Java virtual machine (VM) will not terminate.
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setVisible(true);
+    }
+    
+    @Override
+    public void dispose() {
+        try {
+            this.computer.memory.cache.writer.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        super.dispose();
     }
 }
