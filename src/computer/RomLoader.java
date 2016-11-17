@@ -25,11 +25,13 @@ public class RomLoader {
     private final CPU cpu;
 
     private boolean bootReady;
+    private boolean defaultBootReady;
 
     public RomLoader(MemorySystem memory, CPU cpu) {
         this.memory = memory;
         this.cpu = cpu;
         this.bootReady = false;
+        this.defaultBootReady = false;
     }
 
     public void setUI(UI ui) {
@@ -101,17 +103,24 @@ public class RomLoader {
         this.memory.write(15, 63);
         this.memory.write(1303, 1);
         this.memory.write(1304, 1);
-        
-//        this.memory.write(8, 1024);
-//        this.memory.write(10, 13312);
 
-        this.setBootReady();
+        this.setDefaultBootReady();
 
         JOptionPane.showMessageDialog(this.ui, "Loaded default initial program.");
+    }
+
+    private void setDefaultBootReady() {
+        this.defaultBootReady = true;
+        this.bootReady = true;
+        this.cpu.resetRegisters();
     }
 
     private void setBootReady() {
         this.bootReady = true;
         this.cpu.resetRegisters();
+    }
+
+    public boolean shouldRunBoot() {
+        return this.bootReady && !this.defaultBootReady;
     }
 }

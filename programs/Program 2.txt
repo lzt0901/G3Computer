@@ -56,19 +56,24 @@ int main() {
 ** Example: AIR, 0, _, _, 1
 */
 
-/* New Instructions
+/*
+** New Instructions:
 ** LE rx, ry, rz: c(rz) = (c(rx) <= c(ry)), rz is the last two digits in address.
 ** GE rx, ry, rz: c(rz) = (c(rx) >= c(ry)), rz is the last two digits in address.
 ** ET rx, ry, rz: c(rz) = (c(rx) == c(ry)), rz is the last two digits in address.
-** GETS r, devid
-** PUTS r, devid
 */
 
 // start of variables
-// M[8] = 1024
+// M[8] = 1984
 
 // RFS 0
 // M[10] = 13312
+
+// initialize X[1] for variables
+LIX _, 1, _, 0
+1000110001000000
+LDX _, 1, 0, 8
+1000010001001000
 
 /*
 ** Variable Definition:
@@ -102,44 +107,43 @@ int main() {
 ** STR 0, 1, 0, 27 constant 85
 */
 
-// M[7] = 1, for I/O control
-LDA 0, 0, 0, 1
-0000110000000001
-STR 0, 0, 0, 7
-0000100000000111
+// store the initial address of paragraph into M[M[8]], and output
+    //    GETS 0, _, _, 2
+    //    STR 0, 1, 0, 0
 
-// initialize X[1] for variables
-LIX _, 1, _, 0
-1000110001000000
-LDX _, 1, 0, 8
-1000010001001000
+    TRAP _, _, _, 0
+    0111100000000000
+    STR 1, 1, 0, 0
+    0000100101000000
 
-// store the initial address of paragraph into M[M[8]]
-GETS 0, _, _, 2
-1101000000000010
-STR 0, 1, 0, 0
-0000100001000000
-// output paragraph
-LDR 0, 1, 0, 0
-0000010001000000
-PUTS 0, _, _, 1
-1101010000000001
+    //    // output paragraph
+    //    LDR 0, 1, 0, 0
+    //    PUTS 0, _, _, 1
+
 // store the initial address of word into M[M[8] + 1]
-IN 0, _, _, 0
-1100010000000000
-STR 0, 1, 0, 1
-0000100001000001
-// output pattern
-LDR 0, 1, 0, 1
-0000010001000001
-PUTS 0, _, _, 1
-1101010000000001
+    // M[7] = 1, for I/O control
+    LDA 0, 0, 0, 1
+    0000110000000001
+    STR 0, 0, 0, 7
+    0000100000000111
 
-// M[7] = 0, for I/O control (temporary solution)
-LDA 0, 0, 0, 0
-0000110000000000
-STR 0, 0, 0, 7
-0000100000000111
+    IN 0, _, _, 0
+    1100010000000000
+    STR 0, 1, 0, 1
+    0000100001000001
+
+    //    // output pattern
+    //    LDR 0, 1, 0, 1
+    //    PUTS 0, _, _, 1
+    //
+    //    // M[7] = 0, for I/O control
+    //    LDA 0, 0, 0, 0
+    //    STR 0, 0, 0, 7
+    
+    LDR 1, 1, 0, 1
+    0000010101000001
+    TRAP _, _, _, 1
+    0111100000000001
 
 // STR 0, 1, 0, 2 word, word = 0
 LDA 0, 0, 0, 0
@@ -432,18 +436,18 @@ JZ 1, 1, 1, 14
             0010001101110011
 
                 // output pattern, sentence, word
-                LDR 1, 1, 0, 3
-                0000010101000011
-                LDR 2, 1, 0, 2
-                0000011001000010
-                LDR 3, 1, 0, 1
-                0000011101000001
-                PUTS 3, _, _, 1
-                1101011100000001
-                OUT 1, _, _, 1
-                1100100100000001
+                LDR 1, 1, 0, 1
+                0000010101000001
+                TRAP _, _, _, 1
+                0111100000000001
+                LDR 2, 1, 0, 3
+                0000011001000011
+                LDR 3, 1, 0, 2
+                0000011101000010
                 OUT 2, _, _, 1
                 1100101000000001
+                OUT 3, _, _, 1
+                1100101100000001
 
             // JSR to 10 and RFS in order to obtain PC + 1 into R[3]
             JSR _, 0, 0, 10

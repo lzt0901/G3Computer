@@ -56,19 +56,22 @@ int main() {
 ** Example: AIR, 0, _, _, 1
 */
 
-/* New Instructions
+/*
+** New Instructions:
 ** LE rx, ry, rz: c(rz) = (c(rx) <= c(ry)), rz is the last two digits in address.
 ** GE rx, ry, rz: c(rz) = (c(rx) >= c(ry)), rz is the last two digits in address.
 ** ET rx, ry, rz: c(rz) = (c(rx) == c(ry)), rz is the last two digits in address.
-** GETS r, devid
-** PUTS r, devid
 */
 
 // start of variables
-// M[8] = 1024
+// M[8] = 1984
 
 // RFS 0
 // M[10] = 13312
+
+// initialize X[1] for variables
+LIX _, 1, _, 0
+LDX _, 1, 0, 8
 
 /*
 ** Variable Definition:
@@ -102,30 +105,35 @@ int main() {
 ** STR 0, 1, 0, 27 constant 85
 */
 
-// M[7] = 1, for I/O control
-LDA 0, 0, 0, 1
-STR 0, 0, 0, 7
+// store the initial address of paragraph into M[M[8]], and output
+    //    GETS 0, _, _, 2
+    //    STR 0, 1, 0, 0
 
-// initialize X[1] for variables
-LIX _, 1, _, 0
-LDX _, 1, 0, 8
+    TRAP _, _, _, 0
+    STR 1, 1, 0, 0
 
-// store the initial address of paragraph into M[M[8]]
-GETS 0, _, _, 2
-STR 0, 1, 0, 0
-// output paragraph
-LDR 0, 1, 0, 0
-PUTS 0, _, _, 1
+    //    // output paragraph
+    //    LDR 0, 1, 0, 0
+    //    PUTS 0, _, _, 1
+
 // store the initial address of word into M[M[8] + 1]
-IN 0, _, _, 0
-STR 0, 1, 0, 1
-// output pattern
-LDR 0, 1, 0, 1
-PUTS 0, _, _, 1
+    // M[7] = 1, for I/O control
+    LDA 0, 0, 0, 1
+    STR 0, 0, 0, 7
 
-// M[7] = 0, for I/O control (temporary solution)
-LDA 0, 0, 0, 0
-STR 0, 0, 0, 7
+    IN 0, _, _, 0
+    STR 0, 1, 0, 1
+
+    //    // output pattern
+    //    LDR 0, 1, 0, 1
+    //    PUTS 0, _, _, 1
+    //
+    //    // M[7] = 0, for I/O control
+    //    LDA 0, 0, 0, 0
+    //    STR 0, 0, 0, 7
+    
+    LDR 1, 1, 0, 1
+    TRAP _, _, _, 1
 
 // STR 0, 1, 0, 2 word, word = 0
 LDA 0, 0, 0, 0
@@ -308,12 +316,12 @@ JZ 1, 1, 1, 14
             JZ 3, 1, 1, 19
 
                 // output pattern, sentence, word
-                LDR 1, 1, 0, 3
-                LDR 2, 1, 0, 2
-                LDR 3, 1, 0, 1
-                PUTS 3, _, _, 1
-                OUT 1, _, _, 1
+                LDR 1, 1, 0, 1
+                TRAP _, _, _, 1
+                LDR 2, 1, 0, 3
+                LDR 3, 1, 0, 2
                 OUT 2, _, _, 1
+                OUT 3, _, _, 1
 
             // JSR to 10 and RFS in order to obtain PC + 1 into R[3]
             JSR _, 0, 0, 10
