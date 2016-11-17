@@ -44,7 +44,7 @@ public class IOPanel extends JPanel {
         // Output
         this.outputTextArea = new JTextArea();
         this.outputTextArea.setEditable(false);
-        this.outputTextArea.setRows(10);
+        this.outputTextArea.setRows(13);
         JScrollPane scrollPane = new JScrollPane(this.outputTextArea);
         TextLineNumber tln = new TextLineNumber(this.outputTextArea);
         scrollPane.setRowHeaderView(tln);
