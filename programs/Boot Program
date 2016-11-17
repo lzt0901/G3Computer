@@ -1,40 +1,25 @@
 // start of variable space: M[8] = 2^10 + 2^9 + 2^8 + 2^7 + 2^6 = 1984
 LDA 0, 0, 0, 31
-0000110000011111
 SRC 0, 1, 1, 6
-0110010001100110
 STR 0, 0, 0, 8
-0000100000001000
 
 // start of array space: M[9] = 512
 LDA 0, 0, 0, 1
-0000110000000001
 SRC 0, 1, 1, 9
-0110010001101001
 STR 0, 0, 0, 9
-0000100000001001
 
 // RFS 0 for obtaining PC + 1: M[10] = 13312 = 2^14 - 3072 = 2^14 - (2^11 + 2^10)
 LDA 0, 0, 0, 3
-0000110000000011
 SRC 0, 1, 1, 10
-0110010001101010
 STR 0, 0, 0, 10
-0000100000001010
 LDA 0, 0, 0, 1
-0000110000000001
 SRC 0, 1, 1, 14
-0110010001101110
 SMR 0, 0, 0, 10
-0001010000001010
 STR 0, 0, 0, 10
-0000100000001010
 
 // initialize X[2] for variables
 LIX _, 2, _, 0
-1000110010000000
 LDX _, 2, 0, 9
-1000010010001001
 
 /*
 ** Variable Definition:
@@ -50,224 +35,151 @@ LDX _, 2, 0, 9
 
 // TRAP table address
 LDA 0, 0, 0, 16
-0000110000010000
 STR 0, 0, 0, 0
-0000100000000000
 
 // STR 3, 2, 0, 4 constant 32
 LDA 0, 0, 0, 1
-0000110000000001
 SRC 0, 1, 1, 5
-0110010001100101
 STR 0, 2, 0, 4
-0000100010000100
 
 // JSR to 10 and RFS in order to obtain PC + 1 into R[3]
 JSR _, 0, 0, 10
-0011000000001010
 
 // Add 5 (to make M[16] = TRAP[0])
 AIR 3, _, _, 7
-0001101100000111
 STR 3, 0, 0, 16
-0000101100010000
 
 // On the basis of previous addition, Add 32 (to make M[17] = TRAP[1])
 AMR 3, 2, 0, 4
-0001001110000100
 STR 3, 0, 0, 17
-0000101100010001
 
 // On the basis of previous addition, Add 28 (to get boot end address)
 AIR 3, _, _, 28
-0001101100011100
 STR 3, 2, 0, 5
-0000101110000101
 
 // jump to boot end
 JMA _, 2, 1, 5
-0010110010100101
 
 // -----------------------------------------------------------------------------
 
 // TRAP[0] = GETS 1, 2 (with ECHO)
     // initialize X[2] for variables
     LIX _, 2, _, 0
-    1000110010000000
     LDX _, 2, 0, 9
-    1000010010001001
 
     // STR 0, 2, 0, 0 array
     LDA 0, 2, 0, 10
-    0000110010001010
     AIR 0, _, _, 1
-    0001100000000001
     STR 0, 2, 0, 0
-    0000100010000000
 
     // STR 0, 2, 0, 1 i = 0
     LDA 0, 0, 0, 0
-    0000110000000000
     STR 0, 2, 0, 1
-    0000100010000001
 
     // M[7] = 1, for I/O control
     LDA 0, 0, 0, 1
-    0000110000000001
     STR 0, 0, 0, 7
-    0000100000000111
 
     // JSR to 10 and RFS in order to obtain PC + 1 into R[3]
     JSR _, 0, 0, 10
-    0011000000001010
 
     // Add 4 (to get the loop 1 start address for jumping back)
     AIR 3, _, _, 4
-    0001101100000100
     // STR 3, 2, 0, 2 loop 1 start
     STR 3, 2, 0, 2
-    0000101110000010
 
     // On the basis of previous addition, Add 11 (to get the loop 1 end address for jumping out)
     AIR 3, _, _, 11
-    0001101100001011
     // STR 3, 2, 0, 3 loop 1 end
     STR 3, 2, 0, 3
-    0000101110000011
 
     // loop 1 start, array[i] = IN, and ECHO
     LDR 0, 2, 0, 0
-    0000010010000000
     AMR 0, 2, 0, 1
-    0001000010000001
     STR 0, 2, 0, 10
-    0000100010001010
     IN 0, _, _, 2
-    1100010000000010
     OUT 0, _, _, 1
-    1100100000000001
     STR 0, 2, 1, 10
-    0000100010101010
     // if R[0] == 0 jump out to loop 1 end
     JZ 0, 2, 1, 3
-    0010000010100011
 
         // loop 1 increment
         LDR 0, 2, 0, 1
-        0000010010000001
         AIR 0, _, _, 1
-        0001100000000001
         STR 0, 2, 0, 1
-        0000100010000001
 
         // jump back to loop 1 start
         JMA _, 2, 1, 2
-        0010110010100010
 
     // output line seperator
     LDA 0, 0, 0, 10
-    0000110000001010
     OUT 0, _, _, 1
-    1100100000000001
 
     // M[7] = 0, for I/O control
     LDA 0, 0, 0, 0
-    0000110000000000
     STR 0, 0, 0, 7
-    0000100000000111
 
     // TRAP[0] END
     LDR 1, 2, 0, 0
-    0000010110000000
     LDR 3, 0, 0, 2
-    0000011100000010
     RFS _, _, _, 0
-    0011010000000000
 
 // -----------------------------------------------------------------------------
 
 // TRAP[1] = PUTS 1, 1
     // initialize X[2] for variables
     LIX _, 2, _, 0
-    1000110010000000
     LDX _, 2, 0, 9
-    1000010010001001
 
     // STR 0, 2, 0, 0 array
     STR 1, 2, 0, 0
-    0000100110000000
 
     // STR 0, 2, 0, 1 i = 0
     LDA 0, 0, 0, 0
-    0000110000000000
     STR 0, 2, 0, 1
-    0000100010000001
 
     // M[7] = 1, for I/O control
     LDA 0, 0, 0, 1
-    0000110000000001
     STR 0, 0, 0, 7
-    0000100000000111
 
     // JSR to 10 and RFS in order to obtain PC + 1 into R[3]
     JSR _, 0, 0, 10
-    0011000000001010
 
     // Add 4 (to get the loop 1 start address for jumping back)
     AIR 3, _, _, 4
-    0001101100000100
     // STR 3, 2, 0, 2 loop 1 start
     STR 3, 2, 0, 2
-    0000101110000010
 
     // On the basis of previous addition, Add 10 (to get the loop 1 end address for jumping out)
     AIR 3, _, _, 10
-    0001101100001010
     // STR 3, 2, 0, 3 loop 1 end
     STR 3, 2, 0, 3
-    0000101110000011
 
     // loop 1 start, output array[i]
     LDR 0, 2, 0, 0
-    0000010010000000
     AMR 0, 2, 0, 1
-    0001000010000001
     STR 0, 2, 0, 10
-    0000100010001010
     LDR 0, 2, 1, 10
-    0000010010101010
     OUT 0, _, _, 1
-    1100100000000001
     // if R[0] == 0 jump out to loop 1 end
     JZ 0, 2, 1, 3
-    0010000010100011
 
         // loop 1 increment
         LDR 0, 2, 0, 1
-        0000010010000001
         AIR 0, _, _, 1
-        0001100000000001
         STR 0, 2, 0, 1
-        0000100010000001
 
         // jump back to loop 1 start
         JMA _, 2, 1, 2
-        0010110010100010
 
     // output line seperator
     LDA 0, 0, 0, 10
-    0000110000001010
     OUT 0, _, _, 1
-    1100100000000001
 
     // M[7] = 0, for I/O control
     LDA 0, 0, 0, 0
-    0000110000000000
     STR 0, 0, 0, 7
-    0000100000000111
 
     // TRAP[1] END
     LDR 3, 0, 0, 2
-    0000011100000010
     RFS _, _, _, 0
-    0011010000000000

@@ -28,7 +28,7 @@ public class CPU {
 
     private InterruptException interrupt;
     private boolean isRunning;
-    
+
     private final int initialProgramAddress;
 
     public ProcessorRegisters registers;
@@ -58,7 +58,7 @@ public class CPU {
             this.isRunning = true;
             while (this.isRunning && this.interrupt == null) {
                 this.singleStep();
-        }
+            }
         }).start();
     }
 
@@ -129,11 +129,15 @@ public class CPU {
     }
 
     private void reboot() {
+        JOptionPane.showMessageDialog(this.ui, "System will reboot.", "Warning", JOptionPane.WARNING_MESSAGE);
+        
         this.registers.reset(this.initialProgramAddress);
-        // Maybe need to reset others such as cache.
+        // Might need to reset others such as cache.
         // Might need to clear the printer (Or insert an empty line and reset the counter).
 
-        JOptionPane.showMessageDialog(this.ui, "System rebooted.", "Warning", JOptionPane.WARNING_MESSAGE);
+        if (this.memory.romLoader.shouldRunBoot()) {
+            this.run();
+        }
     }
 
     public void resetRegisters() {

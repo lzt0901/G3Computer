@@ -351,7 +351,7 @@ public class CU implements DataHandlingOperations, ControlFlowOperations {
         // Stores the PC + 1 in memory location 2.
         this.memory.write(2, this.registers.pc.getContent() + 1);
         // Goes to the routine whose address is in Memory[0] + trap code.
-        this.registers.irr.setContent(this.memory.read(0) + trapCode - 1);
+        this.registers.irr.setContent(this.memory.read(this.memory.read(0) + trapCode) - 1);
         return this.registers.pc;
     }
 
