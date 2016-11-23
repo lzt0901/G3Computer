@@ -81,7 +81,7 @@ public class RomLoader {
         if (start != -1) {
             JOptionPane.showMessageDialog(this.ui, "Loaded " + count + (count == 1 ? " instruction. " : " instructions. ") + "Your program starts at address " + start + ".");
             if (!this.bootReady) {
-                JOptionPane.showMessageDialog(this.ui, "No default initial program found. This program will serve as one.", "Initial Program", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this.ui, "No default initial program found. This program will serve as one.", "Boot Program", JOptionPane.WARNING_MESSAGE);
                 this.setBootReady();
             }
         }
@@ -92,6 +92,11 @@ public class RomLoader {
             return;
         }
 
+        if (this.bootReady) {
+            JOptionPane.showMessageDialog(this.ui, "Failed because a boot program has already been loaded.", "Boot Program", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         this.memory.cache.openTraceFile();
 
         // Directly setting memory instead of using instructions.
