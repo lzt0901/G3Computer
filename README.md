@@ -15,13 +15,15 @@ II. Running Programs
 
 All the files are located in the "programs" directory.
 
+If there is requirement for different boot programs, you have to restart the whole simulator to load a different boot program. (Because currently there is no mechanism for clearing boot program that has been loaded before.) 
+
 II.1 Program 2.txt:
 
-Click "Load Bin" first to load "Boot Program.txt" as a boot program, and then click again to load "Program 2.txt" using binary format. After that, getting an external text file, "test sample.txt", to make the card reader ready. Now the preparation is done. Click "Run" to run boot program first. The computer will halt after the boot program is done. Click "Run" again to execute Program 2. It reads the file into memory, print out the contents of the text file, and then asks the user for a word. Finally, it searches the paragraph to see if it contains the word. If so, it prints out the word, the sentence number, and the word number in the sentence.
+Click "Load Bin" first to load "Boot Program.txt" as a boot program, and then click again to load "Program 2.txt" using binary format. After that, click "Card Reader" button to read an external text file, "test sample.txt", into the card reader. Now the preparation is done. Click "Run" to run boot program first. The computer will halt after the boot program is done. Click "Run" again to execute Program 2. It reads the file into memory, print out the contents of the text file, and then asks the user for a word. Finally, it searches the paragraph to see if it contains the word. If so, it prints out the word, the sentence number, and the word number in the sentence.
 
 II.2 program_2.txt
 
-This program is almost the same with "Program 2.txt" except that it uses a built-in boot program. To run this program, click "Default IPL" before doing anything to load built-in boot program, then click "Load Bin" to load "program_2.txt". Now you can click "Run" to execute the program. It reads the file into memory, print out the contents of the text file, and then asks the user for a word. Finally, it searches the paragraph to see if it contains the word. If so, it prints out the word number in the sentence, the sentence number, and the word. This version of program 2 is flawed in that the output form is not perfect and it can't tolerate the space after a comma (under this circumstance, it will count one more to the word number in the sentence).
+This program is almost the same with "Program 2.txt" except that it uses a built-in boot program. To run this program, click "Default IPL" before doing anything to load built-in boot program, then click "Load Bin" to load "program_2.txt". After that, click "Card Reader" button to read an external text file, "test sample.txt", into the card reader. Now you can click "Run" to execute the program. It reads the file into memory, print out the contents of the text file, and then asks the user for a word. Finally, it searches the paragraph to see if it contains the word. If so, it prints out the word number in the sentence, the sentence number, and the word. This version of program 2 is flawed in that the output form is not perfect and it can't tolerate the space after a comma (under this circumstance, it will count one more to the word number in the sentence).
 
 III. Others
 
