@@ -21,7 +21,7 @@ Click "Load Bin" first to load "Boot Program.txt" as a boot program, and then cl
 
 II.2 program_2.txt
 
-This program is almost the same with "Program 2.txt" except that it uses a built-in boot program. To run this program, click "Default IPL" before doing anything to load built-in boot program, then click again to load "program_2.txt". Repeat the rest of the work in "Program 2.txt" to finish.
+This program is almost the same with "Program 2.txt" except that it uses a built-in boot program. To run this program, click "Default IPL" before doing anything to load built-in boot program, then click "Load Bin" to load "program_2.txt". Repeat the rest of the work in "Program 2.txt" to finish.
 
 III. Others
 
