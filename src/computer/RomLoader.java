@@ -75,7 +75,9 @@ public class RomLoader {
             return;
         }
 
+        this.memory.cache.openTraceFile();
         int start = this.memory.allocate(instructions);
+        this.memory.cache.closeTraceFile();
         if (start != -1) {
             JOptionPane.showMessageDialog(this.ui, "Loaded " + count + (count == 1 ? " instruction. " : " instructions. ") + "Your program starts at address " + start + ".");
             if (!this.bootReady) {
@@ -90,6 +92,8 @@ public class RomLoader {
             return;
         }
 
+        this.memory.cache.openTraceFile();
+
         // Directly setting memory instead of using instructions.
         this.memory.write(5, 0);
         this.memory.write(6, 1300);
@@ -103,6 +107,8 @@ public class RomLoader {
         this.memory.write(15, 63);
         this.memory.write(1303, 1);
         this.memory.write(1304, 1);
+
+        this.memory.cache.closeTraceFile();
 
         this.setDefaultBootReady();
 

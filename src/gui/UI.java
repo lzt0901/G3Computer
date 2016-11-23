@@ -45,14 +45,4 @@ public class UI extends JFrame {
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setVisible(true);
     }
-    
-    @Override
-    public void dispose() {
-        try {
-            this.computer.memory.cache.writer.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        super.dispose();
-    }
 }

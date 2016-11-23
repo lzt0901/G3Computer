@@ -57,10 +57,12 @@ public class CPU {
         }
 
         this.thread = new Thread(() -> {
+            this.memory.cache.openTraceFile();
             this.isRunning = true;
             while (this.isRunning && this.interrupt == null) {
                 this.singleStep();
             }
+            this.memory.cache.closeTraceFile();
         });
         this.thread.start();
     }
@@ -99,12 +101,14 @@ public class CPU {
     }
 
     public void recover() {
+        this.memory.cache.openTraceFile();
         try {
-            this.cu.recover(this.interrupt.getInstruction());
+            this.cu.recover(new ISA(this.registers.ir.getContent()));
         } catch (Exception ex) {
             // Never expect to get here.
             ex.printStackTrace();
         }
+        this.memory.cache.closeTraceFile();
 
         this.interrupt = null;
         if (this.isRunning) {

@@ -24,9 +24,9 @@ public class Cache {
     private final int cacheSize;
     private final Queue<Integer> tagQueue;
     private final Map<Integer, CacheLine> lineMap;
-    
+
     private final String traceFile;
-    public BufferedWriter writer;
+    private BufferedWriter writer;
 
     public Cache(int lineSize, int cacheSize) {
         this.lineSize = lineSize;
@@ -34,11 +34,10 @@ public class Cache {
         this.tagQueue = new ArrayDeque<>();
         this.lineMap = new HashMap<>();
         this.traceFile = "trace.txt";
-        try {
-            this.writer = new BufferedWriter(new FileWriter(this.traceFile));
-            this.writer.append("Cache Log");
+
+        try (BufferedWriter bwriter = new BufferedWriter(new FileWriter(this.traceFile))) {
+            bwriter.append("Cache Log");
         } catch (IOException ex) {
-            ex.printStackTrace();
         }
     }
 
@@ -119,7 +118,20 @@ public class Cache {
             this.writer.newLine();
             this.writer.append(msg);
         } catch (IOException ex) {
-            ex.printStackTrace();
+        }
+    }
+
+    public void openTraceFile() {
+        try {
+            this.writer = new BufferedWriter(new FileWriter(this.traceFile, true));
+        } catch (IOException ex) {
+        }
+    }
+
+    public void closeTraceFile() {
+        try {
+            this.writer.close();
+        } catch (IOException ex) {
         }
     }
 }
@@ -127,7 +139,7 @@ public class Cache {
 class CacheLine {
 
     private final int tag;
-    private int[] data;
+    private final int[] data;
 
     public CacheLine(int size, int address, MemorySystem memory) throws MemoryAddressException {
         super();

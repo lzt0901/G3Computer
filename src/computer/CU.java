@@ -276,7 +276,7 @@ public class CU implements DataHandlingOperations, ControlFlowOperations {
                 this.interrupted = true;
                 JOptionPane.showMessageDialog(this.ui, "Please input your data.");
                 this.ui.ioPanel.focusOnInputAndSelectAll();
-                throw new InterruptException(instruction);
+                throw new InterruptException();
             } else {
                 this.interrupted = false;
                 // At this point the input would be absolutely right (cuz it's been examined).
