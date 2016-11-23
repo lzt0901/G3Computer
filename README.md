@@ -21,7 +21,7 @@ Click "Load Bin" first to load "Boot Program.txt" as a boot program, and then cl
 
 II.2 program_2.txt
 
-This program is almost the same with "Program 2.txt" except that it uses a built-in boot program. To run this program, click "Default IPL" before doing anything to load built-in boot program, then click "Load Bin" to load "program_2.txt". Now you can click "Run" to execute the program. It reads the file into memory, print out the contents of the text file, and then asks the user for a word. Finally, it searches the paragraph to see if it contains the word. If so, it prints out the word number in the sentence, the sentence number, and the word. This version of program 2 is flawed in that the output form is not perfect and it can't tolerate the space after a comma (if so, it will count one more to the word number in the sentence).
+This program is almost the same with "Program 2.txt" except that it uses a built-in boot program. To run this program, click "Default IPL" before doing anything to load built-in boot program, then click "Load Bin" to load "program_2.txt". Now you can click "Run" to execute the program. It reads the file into memory, print out the contents of the text file, and then asks the user for a word. Finally, it searches the paragraph to see if it contains the word. If so, it prints out the word number in the sentence, the sentence number, and the word. This version of program 2 is flawed in that the output form is not perfect and it can't tolerate the space after a comma (under this circumstance, it will count one more to the word number in the sentence).
 
 III. Others
 
