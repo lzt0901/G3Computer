@@ -40,7 +40,7 @@ public class ControlPanel extends JPanel {
             }
 
             try {
-                computer.memory.romLoader.loadInitialProgram();
+                this.computer.memory.romLoader.loadInitialProgram();
             } catch (MemoryAddressException ex) {
                 ex.showAlert();
             }
@@ -51,7 +51,7 @@ public class ControlPanel extends JPanel {
                 return;
             }
 
-            computer.memory.romLoader.loadFromFile(16);
+            this.computer.memory.romLoader.loadFromFile(16);
         });
 
         loadOctButton.addActionListener((ActionEvent ae) -> {
@@ -59,7 +59,7 @@ public class ControlPanel extends JPanel {
                 return;
             }
 
-            computer.memory.romLoader.loadFromFile(8);
+            this.computer.memory.romLoader.loadFromFile(8);
         });
 
         loadBinButton.addActionListener((ActionEvent ae) -> {
@@ -67,7 +67,7 @@ public class ControlPanel extends JPanel {
                 return;
             }
 
-            computer.memory.romLoader.loadFromFile(2);
+            this.computer.memory.romLoader.loadFromFile(2);
         });
 
         runButton.addActionListener((ActionEvent ae) -> {
@@ -75,7 +75,7 @@ public class ControlPanel extends JPanel {
                 return;
             }
 
-            computer.cpu.run();
+            this.computer.cpu.run();
         });
 
         ssButton.addActionListener((ActionEvent ae) -> {
@@ -83,7 +83,9 @@ public class ControlPanel extends JPanel {
                 return;
             }
 
-            computer.cpu.singleStep();
+            this.computer.memory.cache.openTraceFile();
+            this.computer.cpu.singleStep();
+            this.computer.memory.cache.closeTraceFile();
         });
 
         cardReaderButton.addActionListener((ActionEvent ae) -> {
@@ -91,7 +93,7 @@ public class ControlPanel extends JPanel {
                 return;
             }
 
-            computer.memory.cardReader.load();
+            this.computer.memory.cardReader.load();
         });
 
         this.add(iplButton);

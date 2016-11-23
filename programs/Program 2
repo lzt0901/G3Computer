@@ -4,7 +4,7 @@
 using namespace std;
 
 int main() {
-	char para[1000] = "we can get learn from the movie...   that the father are badly sick, so. he just urges. to teach hushpuppy. how to be strong eough to survie by herself.don't ask, don't tell.";
+	char para[1000] = "we can get learn from the movie...   that the father are badly sick, so. he just urges. to teach hushpuppy. how to be strong enough to survive by herself.";
 	char pattern[100] = "can";
 
 	cout << para << endl;

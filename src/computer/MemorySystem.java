@@ -24,8 +24,8 @@ public class MemorySystem {
 
     // Size of main memory
     private final int size;
-    private int[] mainMemory;
-    
+    private final int[] mainMemory;
+
     public final Cache cache;
 
     // Outer devices that are integrated into memory system.
@@ -76,12 +76,10 @@ public class MemorySystem {
 
     public int read(int address) throws MemoryAddressException {
         return this.cache.read(address, this);
-//        return this.directRead(address);
     }
 
     public void write(int address, int content) throws MemoryAddressException {
         this.cache.write(address, content, this);
-//        this.directWrite(address, content);
     }
 
     /**
@@ -118,7 +116,10 @@ public class MemorySystem {
             return -1;
         }
         for (int i = 0; i < instructions.size(); ++i) {
-            this.mainMemory[start + i] = instructions.get(i);
+            try {
+                this.write(start + i, instructions.get(i));
+            } catch (MemoryAddressException ex) {
+            }
         }
         return start;
     }
