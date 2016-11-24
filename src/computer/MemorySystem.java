@@ -56,7 +56,7 @@ public class MemorySystem {
         return this.size;
     }
 
-    private void check(int index) throws MemoryAddressException {
+    public void check(int index) throws MemoryAddressException {
         if (index < 0 || index >= this.size) {
             throw new MemoryAddressException();
         }

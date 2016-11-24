@@ -67,6 +67,7 @@ public class Cache {
     }
 
     public int read(int address, MemorySystem memory) throws MemoryAddressException {
+        memory.check(address);
         CacheLine line = this.find(address);
         if (line == null) {
             this.traceMiss(address);
@@ -78,6 +79,7 @@ public class Cache {
     }
 
     public void write(int address, int datum, MemorySystem memory) throws MemoryAddressException {
+        memory.check(address);
         CacheLine line = this.find(address);
         if (line == null) {
             this.traceMiss(address);
@@ -142,7 +144,6 @@ class CacheLine {
     private final int[] data;
 
     public CacheLine(int size, int address, MemorySystem memory) throws MemoryAddressException {
-        super();
         // Cache line can't overlap.
         this.tag = address / size * size;
         this.data = new int[size];
