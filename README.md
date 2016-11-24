@@ -9,7 +9,7 @@ You can click each radio button to set the value of those registers and click th
 
 New instructions, or programs, can be loaded into memory in one of the three format: Hexadecimal, octal and binary.
 
-This computer should always have one and only one boot program, which can be loaded either by the "Default IPL" button, or by loading a program file that contains the boot program. Under the latter circumstance, you should not click the "Default IPL" button.
+This computer should always have one and only one boot program, which can be loaded either by the "Default IPL" button, or by loading a program file that contains the boot program.
 
 ### 2. Running Programs  
 
