@@ -7,7 +7,7 @@ Simulator of a CSIC machine
 
 You can click each radio button to set the value of those registers and click the Set buttons to confirm making changes. The Run button would run all the instructions stored in the memory sequentially (until a halt instruction), and Single Step is used to execute the current instruction. Upon start, nothing is in the memory.
 
-New instructions, or programs, can be loaded into memory in one of the three format: Hexadecimal, octal and binary.
+New instructions, or programs, can be loaded into memory in one of the three format: hexadecimal, octal and binary.
 
 This computer should always have one and only one boot program, which can be loaded either by the "Default IPL" button, or by loading a program file that contains the boot program.
 
