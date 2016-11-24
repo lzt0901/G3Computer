@@ -11,6 +11,8 @@ New instructions, or programs, can be loaded into memory in one of the three for
 
 This computer should always have one and only one boot program, which can be loaded either by the "Default IPL" button, or by loading a program file that contains the boot program.
 
+How cache behaves as the system runs is recorded in "trace.txt".
+
 ### 2. Running Programs  
 
 All the files are located in the "programs" directory.
