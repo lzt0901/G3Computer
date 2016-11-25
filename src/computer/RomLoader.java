@@ -114,6 +114,7 @@ public class RomLoader {
         this.memory.write(1304, 1);
         
         this.memory.write(1329, 65535);
+        this.memory.write(1331, 65535);
 
         this.memory.cache.closeTraceFile();
 
