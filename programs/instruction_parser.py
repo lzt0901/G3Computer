@@ -44,8 +44,8 @@ opcode_dict = {
             'JGE': 017,
             }
 
-with open('Program 2') as in_file:
-    with open('Program 2.txt', 'w') as sys.stdout:
+with open('Boot Program') as in_file:
+    with open('Boot Program.txt', 'w') as sys.stdout:
         while True:
             line = in_file.readline()
             if not line:
