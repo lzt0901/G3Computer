@@ -2,7 +2,7 @@ import sys
 
 opcode_dict = {
             'HLT': 0,
-            'TRAP': 036,
+            'TRAP': 030,
 
             'LDR': 01,
             'STR': 02,
@@ -30,9 +30,9 @@ opcode_dict = {
             'CMB': 027,
             'SRC': 031,
             'RRC': 032,
-            'LE': 033,
-            'GE': 034,
-            'ET': 035,
+            'LE': 070,
+            'GE': 071,
+            'ET': 072,
 
             'JZ': 010,
             'JNE': 011,
@@ -42,6 +42,14 @@ opcode_dict = {
             'RFS': 015,
             'SOB': 016,
             'JGE': 017,
+
+            'FADD': 033,
+            'FSUB': 034,
+            'VADD': 035,
+            'VSUB': 036,
+            'CNVRT': 037,
+            'LDFR': 050,
+            'STFR': 051
             }
 
 with open('Boot Program') as in_file:
