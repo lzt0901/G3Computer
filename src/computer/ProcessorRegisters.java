@@ -12,9 +12,9 @@ import gui.UI;
  * @author Administrator
  */
 public class ProcessorRegisters {
-
+    
     private UI ui;
-
+    
     public Register pc;
     // cc(0), cc(1), cc(2), cc(3): overflow, underflow, division by zero, equal-or-not.
     public Register cc;
@@ -28,7 +28,9 @@ public class ProcessorRegisters {
     public Register[] x;
     // R[0], R[1], R[2], R[3]
     public Register[] gpr;
-
+    // FPR[0], FPR[1]
+    public Register[] fpr;
+    
     public ProcessorRegisters() {
         this.pc = new Register(12);
         this.cc = new Register(4);
@@ -40,14 +42,18 @@ public class ProcessorRegisters {
         this.mfr = new Register(4);
         this.gpr = new Register[4];
         for (int i = 0; i < this.gpr.length; ++i) {
-            gpr[i] = new Register(16);
+            this.gpr[i] = new Register(16);
         }
         this.x = new Register[4];
         for (int i = 1; i < this.x.length; ++i) {
-            x[i] = new Register(16);
+            this.x[i] = new Register(16);
+        }
+        this.fpr = new Register[2];
+        for (int i = 0; i < this.fpr.length; ++i) {
+            this.fpr[i] = new Register(16);
         }
     }
-
+    
     public void reset(int initalProgramAddress) {
         this.pc.setContent(initalProgramAddress);
         this.cc.setContent(0);
@@ -58,13 +64,16 @@ public class ProcessorRegisters {
         this.mbr.setContent(0);
         this.mfr.setContent(0);
         for (int i = 0; i < this.gpr.length; ++i) {
-            gpr[i].setContent(0);
+            this.gpr[i].setContent(0);
         }
         for (int i = 1; i < this.x.length; ++i) {
-            x[i].setContent(0);
+            this.x[i].setContent(0);
+        }
+        for (int i = 0; i < this.fpr.length; ++i) {
+            this.fpr[i].setContent(0);
         }
     }
-
+    
     public void setUI(UI ui) {
         this.ui = ui;
         this.pc.setRegisterGUI(this.ui.registerPanel.pcGUI);

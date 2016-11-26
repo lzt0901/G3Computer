@@ -8,6 +8,7 @@ package computer.OperationInterface;
 import computer.ComputerExceptions.DeviceFailureException;
 import computer.ComputerExceptions.InterruptException;
 import computer.ComputerExceptions.MemoryAddressException;
+import computer.ComputerExceptions.UnexpectedInstructionException;
 import computer.ISA;
 import computer.Register;
 
@@ -61,4 +62,12 @@ public interface DataHandlingOperations {
      * @throws computer.ComputerExceptions.MemoryAddressException
      */
     public Register PUTS(ISA instruction) throws MemoryAddressException;
+
+    public Register LDFR(ISA instruction) throws MemoryAddressException, UnexpectedInstructionException;
+
+    public Register STFR(ISA instruction) throws MemoryAddressException, UnexpectedInstructionException;
+
+    public Register VADD(ISA instruction) throws MemoryAddressException, UnexpectedInstructionException;
+
+    public Register VSUB(ISA instruction) throws MemoryAddressException, UnexpectedInstructionException;
 }

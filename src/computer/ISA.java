@@ -37,7 +37,7 @@ public class ISA {
             // HLT
             case 0:
             // TRAP
-            case 036:
+            case 030:
             // AIR
             case 06:
             // SIR
@@ -65,11 +65,11 @@ public class ISA {
             // RRC
             case 032:
             // LE
-            case 033:
+            case 070:
             // GE
-            case 034:
+            case 071:
             // ET
-            case 035:
+            case 072:
             // LIX
             case 043:
             // IN
@@ -100,7 +100,7 @@ public class ISA {
         switch (this.opcode) {
             case 0:
                 return cfo.HLT(this);
-            case 036:
+            case 030:
                 return cfo.TRAP(this);
 
             case 01:
@@ -154,11 +154,11 @@ public class ISA {
                 return alo.SRC(this);
             case 032:
                 return alo.RRC(this);
-            case 033:
+            case 070:
                 return alo.LE(this);
-            case 034:
+            case 071:
                 return alo.GE(this);
-            case 035:
+            case 072:
                 return alo.ET(this);
 
             case 010:
@@ -177,6 +177,21 @@ public class ISA {
                 return cfo.SOB(this);
             case 017:
                 return cfo.JGE(this);
+                
+            case 033:
+                return alo.FADD(this);
+            case 034:
+                return alo.FSUB(this);
+            case 035:
+                return dho.VADD(this);
+            case 036:
+                return dho.VSUB(this);
+            case 037:
+                return alo.CNVRT(this);
+            case 050:
+                return dho.LDFR(this);
+            case 051:
+                return dho.STFR(this);
             // Unexpected instruction occurred.
             default:
                 throw new UnexpectedInstructionException();

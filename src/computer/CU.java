@@ -377,4 +377,70 @@ public class CU implements DataHandlingOperations, ControlFlowOperations {
         this.registers.irr.setContent(this.registers.gpr[instruction.getR()].getContent());
         return this.registers.gpr[instruction.getR()];
     }
+
+    @Override
+    public Register LDFR(ISA instruction) throws MemoryAddressException, UnexpectedInstructionException {
+        int fr = instruction.getR();
+        if (fr > 1) {
+            throw new UnexpectedInstructionException();
+        }
+
+        int exponent = this.registers.mbr.getContent();
+        int signedMantissa = this.memory.read(this.registers.mar.getContent() + 1);
+        this.registers.irr.setContent(new FloatNumber(exponent, FloatNumber.complementToDecimal(signedMantissa)).getBits());
+        // FR[fr]
+        return this.registers.fpr[fr];
+    }
+
+    @Override
+    public Register STFR(ISA instruction) throws MemoryAddressException, UnexpectedInstructionException {
+        int fr = instruction.getR();
+        if (fr > 1) {
+            throw new UnexpectedInstructionException();
+        }
+
+        FloatNumber fn = new FloatNumber(this.registers.fpr[fr].getContent());
+        this.memory.write(this.registers.mar.getContent() + 1, fn.getMantissaBits());
+        this.registers.irr.setContent(fn.getExponentBits());
+        // Means the result will be stored into memory
+        return null;
+    }
+
+    @Override
+    public Register VADD(ISA instruction) throws MemoryAddressException, UnexpectedInstructionException {
+        int fr = instruction.getR();
+        if (fr > 1) {
+            throw new UnexpectedInstructionException();
+        }
+
+        int v1 = this.registers.mbr.getContent();
+        int v2 = this.memory.read(this.registers.mar.getContent() + 1);
+        int n = this.registers.fpr[fr].getContent();
+        for (int i = 0; i < n; ++n) {
+            this.memory.write(v1 + i, this.memory.read(v1 + i) + this.memory.read(v2 + i));
+        }
+
+        // Meaningless
+        this.registers.irr.setContent(n);
+        return this.registers.fpr[fr];
+    }
+
+    @Override
+    public Register VSUB(ISA instruction) throws MemoryAddressException, UnexpectedInstructionException {
+        int fr = instruction.getR();
+        if (fr > 1) {
+            throw new UnexpectedInstructionException();
+        }
+
+        int v1 = this.registers.mbr.getContent();
+        int v2 = this.memory.read(this.registers.mar.getContent() + 1);
+        int n = this.registers.fpr[fr].getContent();
+        for (int i = 0; i < n; ++n) {
+            this.memory.write(v1 + i, this.memory.read(v1 + i) - this.memory.read(v2 + i));
+        }
+
+        // Meaningless
+        this.registers.irr.setContent(n);
+        return this.registers.fpr[fr];
+    }
 }

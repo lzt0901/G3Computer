@@ -5,6 +5,7 @@
  */
 package computer;
 
+import computer.ComputerExceptions.UnexpectedInstructionException;
 import computer.OperationInterface.ArithmeticLogicOperations;
 
 /**
@@ -231,5 +232,53 @@ public class ALU implements ArithmeticLogicOperations {
         int y = this.registers.gpr[ry].getContent();
         this.registers.irr.setContent(x == y ? 1 : 0);
         return this.registers.gpr[rz];
+    }
+
+    @Override
+    public Register FADD(ISA instruction) throws UnexpectedInstructionException {
+        int fr = instruction.getR();
+        if (fr > 1) {
+            throw new UnexpectedInstructionException();
+        }
+
+        FloatNumber fn1 = new FloatNumber(this.registers.fpr[fr].getContent());
+        FloatNumber fn2 = new FloatNumber(this.registers.mbr.getContent());
+        FloatNumber result = fn1.add(fn2);
+        if (result.isFlowed()) {
+            this.registers.cc.setContent(this.registers.cc.getContent() | 1);
+        }
+        this.registers.irr.setContent(result.getBits());
+        // FR[fr]
+        return this.registers.fpr[fr];
+    }
+
+    @Override
+    public Register FSUB(ISA instruction) throws UnexpectedInstructionException {
+        int fr = instruction.getR();
+        if (fr > 1) {
+            throw new UnexpectedInstructionException();
+        }
+
+        FloatNumber fn1 = new FloatNumber(this.registers.fpr[fr].getContent());
+        FloatNumber fn2 = new FloatNumber(this.registers.mbr.getContent());
+        FloatNumber result = fn1.sub(fn2);
+        if (result.isFlowed()) {
+            this.registers.cc.setContent(this.registers.cc.getContent() | 2);
+        }
+        this.registers.irr.setContent(result.getBits());
+        // FR[fr]
+        return this.registers.fpr[fr];
+    }
+
+    @Override
+    public Register CNVRT(ISA instruction) {
+        int f = this.registers.gpr[instruction.getR()].getContent();
+        if (f == 0) {
+            this.registers.irr.setContent(new FloatNumber(this.registers.mbr.getContent()).toInteger());
+            return this.registers.gpr[instruction.getR()];
+        } else {
+            this.registers.irr.setContent(new FloatNumber(this.registers.mbr.getContent()).getBits());
+            return this.registers.fpr[0];
+        }
     }
 }
