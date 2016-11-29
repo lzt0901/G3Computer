@@ -79,7 +79,6 @@ public class CPU {
             this.interrupt = iex;
         } catch (HaltException hx) {
             hx.showAlert();
-            this.cu.nextInstruction();
             this.isRunning = false;
         } catch (UnexpectedInstructionException uix) {
             uix.showAlert();

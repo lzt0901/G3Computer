@@ -49,23 +49,19 @@ public class CU implements DataHandlingOperations, ControlFlowOperations {
         this.fetchOperand(instruction);
         Register target = this.execute(instruction);
         this.store(target);
-        this.nextInstruction();
     }
 
     // Interrupt should not be considered here cuz it's the process after that is done. Nor should other exceptions.
     public void recover(ISA instruction) throws Exception {
         Register target = this.execute(instruction);
         this.store(target);
-        this.nextInstruction();
     }
 
     public void fetchInstruction() throws MemoryAddressException {
-        // MAR = PC
-        this.registers.mar.setContent(this.registers.pc.getContent());
-        // MBR = Memory[MAR]
-        this.registers.mbr.setContent(this.memory.read(this.registers.mar.getContent()));
-        // IR = MBR
-        this.registers.ir.setContent(this.registers.mbr.getContent());
+        // IR = Memory[PC]
+        this.registers.ir.setContent(this.memory.read(this.registers.pc.getContent()));
+        // Increment PC by 1
+        this.registers.pc.setContent(this.registers.pc.getContent() + 1);
     }
 
     public ISA decode() {
@@ -121,11 +117,6 @@ public class CU implements DataHandlingOperations, ControlFlowOperations {
         }
     }
 
-    public void nextInstruction() {
-        // Increment by 1 (Branch has been implemented in previous steps by changing PC).
-        this.registers.pc.setContent(this.registers.pc.getContent() + 1);
-    }
-
     @Override
     public Register LDR(ISA instruction) {
         // IRR = MBR
@@ -169,9 +160,9 @@ public class CU implements DataHandlingOperations, ControlFlowOperations {
 
     @Override
     public Register JZ(ISA instruction) {
-        // IRR = MAR - 1 if GPR[r] == 0 else PC
+        // IRR = MAR if GPR[r] == 0 else PC
         if (this.registers.gpr[instruction.getR()].getContent() == 0) {
-            this.registers.irr.setContent(this.registers.mar.getContent() - 1);
+            this.registers.irr.setContent(this.registers.mar.getContent());
         } else {
             this.registers.irr.setContent(this.registers.pc.getContent());
         }
@@ -181,9 +172,9 @@ public class CU implements DataHandlingOperations, ControlFlowOperations {
 
     @Override
     public Register JNE(ISA instruction) {
-        // IRR = MAR - 1 if GPR[r] != 0 else PC
+        // IRR = MAR if GPR[r] != 0 else PC
         if (this.registers.gpr[instruction.getR()].getContent() != 0) {
-            this.registers.irr.setContent(this.registers.mar.getContent() - 1);
+            this.registers.irr.setContent(this.registers.mar.getContent());
         } else {
             this.registers.irr.setContent(this.registers.pc.getContent());
         }
@@ -194,9 +185,9 @@ public class CU implements DataHandlingOperations, ControlFlowOperations {
     @Override
     public Register JCC(ISA instruction) {
         int cc = instruction.getR();
-        // IRR = MAR - 1 if If cc bit == 1 else PC
+        // IRR = MAR if If cc bit == 1 else PC
         if ((this.registers.cc.getContent() >> cc & 1) == 1) {
-            this.registers.irr.setContent(this.registers.mar.getContent() - 1);
+            this.registers.irr.setContent(this.registers.mar.getContent());
         } else {
             this.registers.irr.setContent(this.registers.pc.getContent());
         }
@@ -206,18 +197,18 @@ public class CU implements DataHandlingOperations, ControlFlowOperations {
 
     @Override
     public Register JMA(ISA instruction) {
-        // IRR = MAR - 1
-        this.registers.irr.setContent(this.registers.mar.getContent() - 1);
+        // IRR = MAR
+        this.registers.irr.setContent(this.registers.mar.getContent());
         // PC
         return this.registers.pc;
     }
 
     @Override
     public Register JSR(ISA instruction) {
-        // GPR[3] = PC + 1
-        this.registers.gpr[3].setContent(this.registers.pc.getContent() + 1);
-        // IRR = MAR - 1
-        this.registers.irr.setContent(this.registers.mar.getContent() - 1);
+        // GPR[3] = PC (already incremented)
+        this.registers.gpr[3].setContent(this.registers.pc.getContent());
+        // IRR = MAR
+        this.registers.irr.setContent(this.registers.mar.getContent());
         // PC
         return this.registers.pc;
     }
@@ -226,8 +217,8 @@ public class CU implements DataHandlingOperations, ControlFlowOperations {
     public Register RFS(ISA instruction) {
         // GPR[0] = Immed
         this.registers.gpr[0].setContent(instruction.getAddress());
-        // IRR = GPR[3] - 1
-        this.registers.irr.setContent(this.registers.gpr[3].getContent() - 1);
+        // IRR = GPR[3]
+        this.registers.irr.setContent(this.registers.gpr[3].getContent());
         // PC
         return this.registers.pc;
     }
@@ -236,9 +227,9 @@ public class CU implements DataHandlingOperations, ControlFlowOperations {
     public Register SOB(ISA instruction) {
         // GPR[r] = GPR[r] - 1
         this.registers.gpr[instruction.getR()].setContent(this.registers.gpr[instruction.getR()].getContent() - 1);
-        // IRR = MAR - 1 if If GPR[r] > 0 else PC
+        // IRR = MAR if If GPR[r] > 0 else PC
         if (this.registers.gpr[instruction.getR()].getContent() > 0) {
-            this.registers.irr.setContent(this.registers.mar.getContent() - 1);
+            this.registers.irr.setContent(this.registers.mar.getContent());
         } else {
             this.registers.irr.setContent(this.registers.pc.getContent());
         }
@@ -248,9 +239,9 @@ public class CU implements DataHandlingOperations, ControlFlowOperations {
 
     @Override
     public Register JGE(ISA instruction) {
-        // IRR = MAR - 1 if If GPR[r] >= 0 else PC
+        // IRR = MAR if If GPR[r] >= 0 else PC
         if (this.registers.gpr[instruction.getR()].getContent() >= 0) {
-            this.registers.irr.setContent(this.registers.mar.getContent() - 1);
+            this.registers.irr.setContent(this.registers.mar.getContent());
         } else {
             this.registers.irr.setContent(this.registers.pc.getContent());
         }
@@ -348,10 +339,10 @@ public class CU implements DataHandlingOperations, ControlFlowOperations {
     @Override
     public Register TRAP(ISA instruction) throws MemoryAddressException {
         int trapCode = instruction.getAddress() & 0x0000000f;
-        // Stores the PC + 1 in memory location 2.
-        this.memory.write(2, this.registers.pc.getContent() + 1);
+        // Stores the PC (already incremented) in memory location 2.
+        this.memory.write(2, this.registers.pc.getContent());
         // Goes to the routine whose address is in Memory[0] + trap code.
-        this.registers.irr.setContent(this.memory.read(this.memory.read(0) + trapCode) - 1);
+        this.registers.irr.setContent(this.memory.read(this.memory.read(0) + trapCode));
         return this.registers.pc;
     }
 
