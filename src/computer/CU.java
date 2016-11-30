@@ -31,11 +31,18 @@ public class CU implements DataHandlingOperations, ControlFlowOperations {
 
     private boolean interrupted;
 
+    // All for pipeline
+    private int stageNumber;
+    private ISA pplInstruction;
+
     public CU(MemorySystem memory, ProcessorRegisters registers, ALU alu) {
         this.memory = memory;
         this.registers = registers;
         this.alu = alu;
         this.interrupted = false;
+        
+        // Not the best place to initialize it.
+        this.stageNumber = 0;
     }
 
     public void setUI(UI ui) {
@@ -55,6 +62,34 @@ public class CU implements DataHandlingOperations, ControlFlowOperations {
     public void recover(ISA instruction) throws Exception {
         Register target = this.execute(instruction);
         this.store(target);
+    }
+
+    public void pipeline()
+            throws InterruptException, HaltException, UnexpectedInstructionException, MemoryAddressException, DeviceFailureException {
+        switch (this.stageNumber) {
+            case 0:
+                this.fetchInstruction();
+                break;
+            case 1:
+                this.pplInstruction = this.decode();
+                this.fetchInstruction();
+                break;
+            case 2:
+                this.fetchOperand(this.pplInstruction);
+                this.pplInstruction = this.decode();
+                this.fetchInstruction();
+                break;
+            case 3:
+                Register target = this.execute(this.pplInstruction);
+                this.store(target);
+                this.fetchOperand(this.pplInstruction);
+                this.pplInstruction = this.decode();
+                this.fetchInstruction();
+                break;
+        }
+        if (this.stageNumber < 3) {
+            ++this.stageNumber;
+        }
     }
 
     public void fetchInstruction() throws MemoryAddressException {
