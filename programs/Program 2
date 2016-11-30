@@ -48,20 +48,20 @@ int main() {
 
 // -----------------------------------------------------------------------------
 
-/*
-** Instruction Format:
-** "HEAD R, IX, I, ADDR"
-** Example: STR 0, 1, 0, 0
-** Part of the content of certain instructions might be omitted with a symbol of '_'.
-** Example: AIR, 0, _, _, 1
-*/
+/**
+ * Instruction Format:
+ * "HEAD R, IX, I, ADDR"
+ * Example: STR 0, 1, 0, 0
+ * Part of the content of certain instructions might be omitted with a symbol of '_'.
+ * Example: AIR, 0, _, _, 1
+ */
 
-/*
-** New Instructions:
-** LE rx, ry, rz: c(rz) = (c(rx) <= c(ry)), rz is the last two digits in address.
-** GE rx, ry, rz: c(rz) = (c(rx) >= c(ry)), rz is the last two digits in address.
-** ET rx, ry, rz: c(rz) = (c(rx) == c(ry)), rz is the last two digits in address.
-*/
+/**
+ * New Instructions:
+ * LE rx, ry, rz: c(rz) = (c(rx) <= c(ry)), rz is the last two digits in address.
+ * GE rx, ry, rz: c(rz) = (c(rx) >= c(ry)), rz is the last two digits in address.
+ * ET rx, ry, rz: c(rz) = (c(rx) == c(ry)), rz is the last two digits in address.
+ */
 
 // start of variables
 // M[8] = 1984
@@ -73,37 +73,37 @@ int main() {
 LIX _, 1, _, 0
 LDX _, 1, 0, 8
 
-/*
-** Variable Definition:
-** STR 0, 1, 0, 0 para
-** STR 0, 1, 0, 1 pattern
-** STR 0, 1, 0, 2 word
-** STR 0, 1, 0, 3 sentence
-** STR 0, 1, 0, 4 start
-** STR 0, 1, 0, 5 i
-** STR 0, 1, 0, 6 j
-** (Disregarded) STR 0, 1, 0, 7 constant 0
-** STR 0, 1, 0, 8 constant -1
-** STR 0, 1, 0, 9 constant 97 (a)
-** STR 0, 1, 0, 10 constant 122 (z)
-** STR 0, 1, 0, 11 constant 39 (')
-** STR 0, 1, 0, 12 constant 46 (.)
-** STR 3, 1, 0, 13 loop 1 start
-** STR 3, 1, 0, 14 loop 1 end
-** STR 3, 1, 0, 15 loop 2 start
-** STR 3, 1, 0, 16 loop 2 end
-** STR 3, 1, 0, 17 branch 1
-** STR 3, 1, 0, 18 branch 2
-** STR 3, 1, 0, 19 branch 3
-** STR 3, 1, 0, 20 branch 4
-** STR 3, 1, 0, 21 branch 5
-** STR 0, 1, 0, 22 addr(para[start + j])
-** STR 0, 1, 0, 23 addr(para[i])
-** STR 0, 1, 0, 24 addr(pattern[j])
-** STR 0, 1, 0, 25 constant 108
-** STR 0, 1, 0, 26 constant 86
-** STR 0, 1, 0, 27 constant 85
-*/
+/**
+ * Variable Definition:
+ * STR 0, 1, 0, 0 para
+ * STR 0, 1, 0, 1 pattern
+ * STR 0, 1, 0, 2 word
+ * STR 0, 1, 0, 3 sentence
+ * STR 0, 1, 0, 4 start
+ * STR 0, 1, 0, 5 i
+ * STR 0, 1, 0, 6 j
+ * (Disregarded) STR 0, 1, 0, 7 constant 0
+ * STR 0, 1, 0, 8 constant -1
+ * STR 0, 1, 0, 9 constant 97 (a)
+ * STR 0, 1, 0, 10 constant 122 (z)
+ * STR 0, 1, 0, 11 constant 39 (')
+ * STR 0, 1, 0, 12 constant 46 (.)
+ * STR 3, 1, 0, 13 loop 1 start
+ * STR 3, 1, 0, 14 loop 1 end
+ * STR 3, 1, 0, 15 loop 2 start
+ * STR 3, 1, 0, 16 loop 2 end
+ * STR 3, 1, 0, 17 branch 1
+ * STR 3, 1, 0, 18 branch 2
+ * STR 3, 1, 0, 19 branch 3
+ * STR 3, 1, 0, 20 branch 4
+ * STR 3, 1, 0, 21 branch 5
+ * STR 0, 1, 0, 22 addr(para[start + j])
+ * STR 0, 1, 0, 23 addr(para[i])
+ * STR 0, 1, 0, 24 addr(pattern[j])
+ * STR 0, 1, 0, 25 constant 108
+ * STR 0, 1, 0, 26 constant 86
+ * STR 0, 1, 0, 27 constant 85
+ */
 
 // store the initial address of paragraph into M[M[8]], and output
     //    GETS 0, _, _, 2

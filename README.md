@@ -31,7 +31,13 @@ Once encountered an error (unexpected instruction or accessing wrong memory addr
 4) Click "Run" to run boot program first. The computer will halt after the boot program is done.  
 5) Click "Run" again to execute Program 2. It reads the file into memory, prints out the contents of the text file, and then asks the user for a word. Finally, it searches the paragraph to see if it contains the word. If so, it prints out the word, the sentence number, and the word number in the sentence.
 
-#### 2.2 program_2.txt  
+#### 2.2 program_1.txt  
+
+1) Click "Default IPL" before doing anything to load built-in boot program.  
+2) Click "Load Bin" to load "program_1.txt".   
+3) Click "Run" to execute the program. It reads 20 numbers (integers) from the keyboard, prints the numbers to the console printer, requests a number from the user, and searches the 20 numbers read in for the number closest to the number entered by the user. Finally it prints the number entered by the user and the number closest to that number.
+
+#### 2.3 program_2.txt  
 
 This program is almost the same with "Program 2.txt" except that it uses a built-in boot program. To run this program:  
 1) Click "Default IPL" before doing anything to load built-in boot program.  
@@ -39,4 +45,4 @@ This program is almost the same with "Program 2.txt" except that it uses a built
 3) Click "Card Reader" button to read an external text file, "test sample.txt", into the card reader.  
 4) Click "Run" to execute the program. It reads the file into memory, prints out the contents of the text file, and then asks the user for a word. Finally, it searches the paragraph to see if it contains the word. If so, it prints out the word number in the sentence, the sentence number, and the word.
 
-This version of program 2 is flawed in that the output form is not perfect and it can't tolerate the space after a comma (under this circumstance, it will count one more to the word number in the sentence).
+This version of program 2 is flawed in that the output form is not perfect and that it can't tolerate the space after a comma (under this circumstance, it will count one more to the word number in the sentence). Besides, it would match suffix.
