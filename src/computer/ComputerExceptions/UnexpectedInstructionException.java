@@ -5,7 +5,7 @@
  */
 package computer.ComputerExceptions;
 
-import javax.swing.JOptionPane;
+import gui.UI;
 
 /**
  *
@@ -16,7 +16,7 @@ public class UnexpectedInstructionException extends Exception {
     public UnexpectedInstructionException() {
     }
 
-    public void showAlert() {
-        JOptionPane.showMessageDialog(null, "Unexpected instruction encountered.", "Unexpected Instruction", JOptionPane.ERROR_MESSAGE);
+    public void showAlert(UI ui) {
+        ui.showError("Unexpected instruction encountered.", "Unexpected Instruction");
     }
 }

@@ -18,11 +18,13 @@ import javax.swing.JPanel;
 public class ControlPanel extends JPanel {
 
     private final Computer computer;
+    private final UI parentFrame;
 
-    public ControlPanel(Computer computer) {
+    public ControlPanel(Computer computer, UI parentFrame) {
         super();
         this.computer = computer;
         this.initComponents();
+        this.parentFrame = parentFrame;
     }
 
     private void initComponents() {
@@ -42,7 +44,7 @@ public class ControlPanel extends JPanel {
             try {
                 this.computer.memory.romLoader.loadInitialProgram();
             } catch (MemoryAddressException ex) {
-                ex.showAlert();
+                ex.showAlert(this.parentFrame);
             }
         });
 

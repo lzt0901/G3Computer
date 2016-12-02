@@ -5,7 +5,7 @@
  */
 package computer.ComputerExceptions;
 
-import javax.swing.JOptionPane;
+import gui.UI;
 
 /**
  *
@@ -16,7 +16,7 @@ public class MemoryAddressException extends Exception {
     public MemoryAddressException() {
     }
 
-    public void showAlert() {
-        JOptionPane.showMessageDialog(null, "Wrong address.", "Memory Error", JOptionPane.ERROR_MESSAGE);
+    public void showAlert(UI ui) {
+        ui.showError("Wrong address.", "Memory Error");
     }
 }

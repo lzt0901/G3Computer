@@ -9,7 +9,6 @@ import computer.ComputerExceptions.MemoryAddressException;
 import gui.UI;
 import java.util.Arrays;
 import java.util.List;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -112,7 +111,7 @@ public class MemorySystem {
 
         // Means no such space.
         if (start >= this.mainMemory.length) {
-            JOptionPane.showMessageDialog(this.ui, "Memory full. Allocation failed.", "Memory Error", JOptionPane.ERROR_MESSAGE);
+            this.ui.showError("Memory full. Allocation failed.", "Memory Error");
             return -1;
         }
         for (int i = 0; i < instructions.size(); ++i) {

@@ -7,11 +7,10 @@ package computer;
 
 import computer.ComputerExceptions.DeviceFailureException;
 import gui.UI;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -48,29 +47,28 @@ public class CardReader {
             return;
         }
 
-        // File chooser to read a file
-        JFileChooser chooser = new JFileChooser();
-        if (chooser.showOpenDialog(this.ui) != JFileChooser.APPROVE_OPTION) {
-            JOptionPane.showMessageDialog(this.ui, "Canceled.", "Loading Files", JOptionPane.WARNING_MESSAGE);
+        // Call file chooser to read a file
+        File file = this.ui.chooseFile();
+        if (file == null) {
             return;
         }
 
         try {
             // Put all contents of the file into a string variable
-            this.contents = new String(Files.readAllBytes(Paths.get(chooser.getSelectedFile().getPath())));
-            // Requested by unicornyzh
+            this.contents = new String(Files.readAllBytes(Paths.get(file.getPath())));
+            // Required by unicornyzh
             this.contents = this.contents.trim();
-            // Requested by myself
+            // Required by myself
             this.contents = this.contents.toLowerCase();
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this.ui, "IO Exception occurred.", "IO Error", JOptionPane.ERROR_MESSAGE);
+            this.ui.showError("IO Exception occurred.", "IO Error");
             return;
         }
 
         // Right now we would assume the device would be always in the card reader after it is inserted.
         // So, there is no operation for flipping the status back to 0.
         this.status = 1;
-        JOptionPane.showMessageDialog(this.ui, "Card Reader is ready.");
+        this.ui.showMessage("Card Reader is ready.");
     }
 
     // Return the ASCII of characters.

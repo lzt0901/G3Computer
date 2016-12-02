@@ -9,7 +9,6 @@ import computer.Computer;
 import computer.ComputerExceptions.MemoryAddressException;
 import java.awt.event.ActionEvent;
 import javax.swing.BoxLayout;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -23,15 +22,17 @@ import javax.swing.text.DefaultCaret;
 public class IOPanel extends JPanel {
 
     private final Computer computer;
+    private final UI parentFrame;
 
     public JTextArea outputTextArea;
     public JTextField inputTextField;
 
     private boolean isNewLine;
 
-    public IOPanel(Computer computer) {
+    public IOPanel(Computer computer, UI parentFrame) {
         super();
         this.computer = computer;
+        this.parentFrame = parentFrame;
         this.initComponents();
 
         this.isNewLine = false;
@@ -69,7 +70,7 @@ public class IOPanel extends JPanel {
     private void validateInputAndRecover() {
         // Validate the timing.
         if (!this.computer.cpu.isInterrupted(true)) {
-            JOptionPane.showMessageDialog(null, "Input denied: No input instruction executed.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            this.parentFrame.showError("Input denied: No input instruction executed.", "Input Error");
             return;
         }
 
@@ -79,13 +80,13 @@ public class IOPanel extends JPanel {
                 try {
                     this.getNumberInput();
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Incorrect input.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                    this.parentFrame.showError("Incorrect input.", "Input Error");
                     this.focusOnInputAndSelectAll();
                     return;
                 }
             } else {
                 if (this.getStringInput().equals("")) {
-                    JOptionPane.showMessageDialog(null, "Input can't be empty.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                    this.parentFrame.showError("Input can't be empty.", "Input Error");
                     this.focusOnInputAndSelectAll();
                     return;
                 }

@@ -5,6 +5,7 @@
  */
 package computer.ComputerExceptions;
 
+import gui.UI;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,7 +17,7 @@ public class HaltException extends Exception {
     public HaltException() {
     }
 
-    public void showAlert() {
-        JOptionPane.showMessageDialog(null, "Halt.", "Halt Instruction", JOptionPane.WARNING_MESSAGE);
+    public void showAlert(UI ui) {
+        ui.showWarning("Halt.", "Halt Instruction");
     }
 }

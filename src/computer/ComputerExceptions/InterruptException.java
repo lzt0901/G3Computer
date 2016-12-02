@@ -5,8 +5,6 @@
  */
 package computer.ComputerExceptions;
 
-import computer.ISA;
-
 /**
  *
  * @author Administrator

@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 public class RegisterPanel extends JPanel {
 
     private final Computer computer;
+    private final UI parentframe;
 
     public JPanel leftPanel;
     public JPanel rightPanel;
@@ -31,9 +32,10 @@ public class RegisterPanel extends JPanel {
     public RegisterGUI pcGUI;
     public RegisterGUI ccGUI;
 
-    public RegisterPanel(Computer computer) {
+    public RegisterPanel(Computer computer, UI parentframe) {
         super();
         this.computer = computer;
+        this.parentframe = parentframe;
         this.initComponents();
     }
 
@@ -58,10 +60,10 @@ public class RegisterPanel extends JPanel {
         for (int i = 0; i < 4; ++i) {
             if (i == 0) // With name and index
             {
-                this.gprGUI[i] = new RegisterGUI(this.computer.cpu.registers.gpr[i], "GPR", i, this.computer);
+                this.gprGUI[i] = new RegisterGUI(this.computer.cpu.registers.gpr[i], "GPR", i, this.computer, this.parentframe);
             } else // With only index
             {
-                this.gprGUI[i] = new RegisterGUI(this.computer.cpu.registers.gpr[i], i, this.computer);
+                this.gprGUI[i] = new RegisterGUI(this.computer.cpu.registers.gpr[i], i, this.computer, this.parentframe);
             }
             this.leftPanel.add(this.gprGUI[i]);
         }
@@ -69,21 +71,21 @@ public class RegisterPanel extends JPanel {
         for (int i = 1; i < 4; ++i) {
             if (i == 1) // With name and index
             {
-                this.xGUI[i] = new RegisterGUI(this.computer.cpu.registers.x[i], "IX", i, this.computer);
+                this.xGUI[i] = new RegisterGUI(this.computer.cpu.registers.x[i], "IX", i, this.computer, this.parentframe);
             } else // With only index
             {
-                this.xGUI[i] = new RegisterGUI(this.computer.cpu.registers.x[i], i, this.computer);
+                this.xGUI[i] = new RegisterGUI(this.computer.cpu.registers.x[i], i, this.computer, this.parentframe);
             }
             this.leftPanel.add(this.xGUI[i]);
         }
 
         this.rightPanel.add(Box.createVerticalGlue());
         // With only name
-        this.rightPanel.add(this.marGUI = new RegisterGUI(this.computer.cpu.registers.mar, "MAR", this.computer));
-        this.rightPanel.add(this.mbrGUI = new RegisterGUI(this.computer.cpu.registers.mbr, "MBR", this.computer));
-        this.rightPanel.add(this.irGUI = new RegisterGUI(this.computer.cpu.registers.ir, "IR", this.computer));
-        this.rightPanel.add(this.pcGUI = new RegisterGUI(this.computer.cpu.registers.pc, "PC", this.computer));
-        this.rightPanel.add(this.ccGUI = new RegisterGUI(this.computer.cpu.registers.cc, "CC", this.computer));
-        this.rightPanel.add(this.mfrGUI = new RegisterGUI(this.computer.cpu.registers.mfr, "MFR", this.computer));
+        this.rightPanel.add(this.marGUI = new RegisterGUI(this.computer.cpu.registers.mar, "MAR", this.computer, this.parentframe));
+        this.rightPanel.add(this.mbrGUI = new RegisterGUI(this.computer.cpu.registers.mbr, "MBR", this.computer, this.parentframe));
+        this.rightPanel.add(this.irGUI = new RegisterGUI(this.computer.cpu.registers.ir, "IR", this.computer, this.parentframe));
+        this.rightPanel.add(this.pcGUI = new RegisterGUI(this.computer.cpu.registers.pc, "PC", this.computer, this.parentframe));
+        this.rightPanel.add(this.ccGUI = new RegisterGUI(this.computer.cpu.registers.cc, "CC", this.computer, this.parentframe));
+        this.rightPanel.add(this.mfrGUI = new RegisterGUI(this.computer.cpu.registers.mfr, "MFR", this.computer, this.parentframe));
     }
 }

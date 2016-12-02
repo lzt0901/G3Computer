@@ -15,7 +15,6 @@ import computer.OperationInterface.DataHandlingOperations;
 import gui.UI;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -300,7 +299,7 @@ public class CU implements DataHandlingOperations, ControlFlowOperations {
         if (devid == 0) {
             if (!this.interrupted) {
                 this.interrupted = true;
-                JOptionPane.showMessageDialog(this.ui, "Please input your data.");
+                this.ui.showMessage("Please input your data.");
                 this.ui.ioPanel.focusOnInputAndSelectAll();
                 throw new InterruptException();
             } else {
