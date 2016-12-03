@@ -52,8 +52,8 @@ opcode_dict = {
             'STFR': 051
             }
 
-with open('Program 2') as in_file:
-    with open('Program 2.txt', 'w') as sys.stdout:
+with open('Program 3') as in_file:
+    with open('Program 3.txt', 'w') as sys.stdout:
         while True:
             line = in_file.readline()
             if not line:
