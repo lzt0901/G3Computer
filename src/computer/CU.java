@@ -468,7 +468,7 @@ public class CU implements DataHandlingOperations, ControlFlowOperations {
         int v1 = this.registers.mbr.getContent();
         int v2 = this.memory.read(this.registers.mar.getContent() + 1);
         int n = this.registers.fpr[fr].getContent();
-        for (int i = 0; i < n; ++n) {
+        for (int i = 0; i < n; ++i) {
             this.memory.write(v1 + i, this.memory.read(v1 + i) + this.memory.read(v2 + i));
         }
 
@@ -487,7 +487,7 @@ public class CU implements DataHandlingOperations, ControlFlowOperations {
         int v1 = this.registers.mbr.getContent();
         int v2 = this.memory.read(this.registers.mar.getContent() + 1);
         int n = this.registers.fpr[fr].getContent();
-        for (int i = 0; i < n; ++n) {
+        for (int i = 0; i < n; ++i) {
             this.memory.write(v1 + i, this.memory.read(v1 + i) - this.memory.read(v2 + i));
         }
 
