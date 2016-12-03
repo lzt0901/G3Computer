@@ -25,14 +25,14 @@ Once encountered an error (unexpected instruction or accessing wrong memory addr
 
 #### 2.1 Program 1.txt  
 
-1) Click "Load Bin" first to load "Boot Program.txt" as a boot program.(If it is already set, ignore this step and do step 2, 4 instead.)  
+1) Click "Load Bin" first to load "Boot Program.txt" as a boot program (If it is already set, ignore this step and do step 2, 4 instead).  
 2) Click "Load Bin" again to load "Program 2.txt".  
 3) Click "Run" to run boot program first. The computer will halt after the boot program is done.  
-4) Click "Run" again to execute the program. It reads 20 numbers (integers) from the keyboard, prints the numbers to the console printer, requests a number from the user, and searches the 20 numbers read in for the number closest to the number entered by the user. Finally it prints the number entered by the user and the number closest to that number.
+4) Click "Run" again to execute the program. It reads 20 numbers (integers) from the keyboard, prints the numbers to the console printer, requests a number from the user, and searches the 20 numbers read in for the number closest to the number entered by the user. Finally, it prints the number entered by the user and the number closest to that number.
 
 #### 2.2 Program 2.txt:  
 
-1) Click "Load Bin" first to load "Boot Program.txt" as a boot program.(If it is already set, ignore this step and do step 2, 3, 5 instead.)  
+1) Click "Load Bin" first to load "Boot Program.txt" as a boot program (If it is already set, ignore this step and do step 2, 3, 5 instead).  
 2) Click "Load Bin" again to load "Program 2.txt".  
 3) Click "Card Reader" button to read an external text file, "Paragraph Sample.txt", into the card reader.  
 4) Click "Run" to run boot program first. The computer will halt after the boot program is done.  
