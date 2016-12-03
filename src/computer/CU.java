@@ -32,14 +32,15 @@ public class CU implements DataHandlingOperations, ControlFlowOperations {
 
     // All for pipeline
     private int stageNumber;
-    private ISA pplInstruction;
+    private ISA currentInstruction;
+    private ISA nextInstruction;
 
     public CU(MemorySystem memory, ProcessorRegisters registers, ALU alu) {
         this.memory = memory;
         this.registers = registers;
         this.alu = alu;
         this.interrupted = false;
-        
+
         // Not the best place to initialize it.
         this.stageNumber = 0;
     }
@@ -63,6 +64,25 @@ public class CU implements DataHandlingOperations, ControlFlowOperations {
         this.store(target);
     }
 
+    /**
+     * In this pipeline model, instruction cycle are divided into
+     * FetchInstruction -> Decode -> FetchOperand -> Execute. The stageNumber
+     * variable would match to the four phases respectively. However, what it
+     * means is more than that: It will tell us how to inversely execute the
+     * instruction cycle.
+     *
+     * This pipeline has conquered hazards. However, it can't allow branches
+     * yet.
+     *
+     * One way to test this method is to replace in the singleStep method of the
+     * CPU class, the statement "this.cu.instuctionCycle();" with "this.cu.pipeline();".
+     *
+     * @throws InterruptException
+     * @throws HaltException
+     * @throws UnexpectedInstructionException
+     * @throws MemoryAddressException
+     * @throws DeviceFailureException
+     */
     public void pipeline()
             throws InterruptException, HaltException, UnexpectedInstructionException, MemoryAddressException, DeviceFailureException {
         switch (this.stageNumber) {
@@ -70,19 +90,26 @@ public class CU implements DataHandlingOperations, ControlFlowOperations {
                 this.fetchInstruction();
                 break;
             case 1:
-                this.pplInstruction = this.decode();
+                this.currentInstruction = this.decode();
                 this.fetchInstruction();
                 break;
             case 2:
-                this.fetchOperand(this.pplInstruction);
-                this.pplInstruction = this.decode();
+                this.fetchOperand(this.currentInstruction);
+                this.nextInstruction = this.decode();
                 this.fetchInstruction();
                 break;
             case 3:
-                Register target = this.execute(this.pplInstruction);
+                Register target = this.execute(this.currentInstruction);
                 this.store(target);
-                this.fetchOperand(this.pplInstruction);
-                this.pplInstruction = this.decode();
+                if (target == this.registers.pc) {
+                    this.stageNumber = 0;
+                    // If branch should be taken into consideration, the implementation of at least JSR and TRAP should be changed
+                    // Because in this pipepline version, PC would be 2 more ahead than normal version.
+                    return;
+                }
+                this.currentInstruction = this.nextInstruction;
+                this.fetchOperand(this.currentInstruction);
+                this.nextInstruction = this.decode();
                 this.fetchInstruction();
                 break;
         }
