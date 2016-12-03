@@ -42,7 +42,7 @@ public class RomLoader {
         }
 
         // Call file chooser to read a file
-        File file = this.ui.chooseFile();
+        File file = this.ui.operatorConsole.chooseFile();
         if (file == null) {
             return;
         }
@@ -63,12 +63,12 @@ public class RomLoader {
                 }
             }
         } catch (IOException x) {
-            this.ui.showError("IO Exception occurred.", "IO Error");
+            this.ui.operatorConsole.showError("IO Exception occurred.", "IO Error");
             return;
         }
 
         if (instructions.isEmpty()) {
-            this.ui.showError("Load failed. Please check the content and format of your file.", "Load Error");
+            this.ui.operatorConsole.showError("Load failed. Please check the content and format of your file.", "Load Error");
             return;
         }
 
@@ -76,9 +76,9 @@ public class RomLoader {
         int start = this.memory.allocate(instructions);
         this.memory.cache.closeTraceFile();
         if (start != -1) {
-            this.ui.showMessage("Loaded " + count + (count == 1 ? " instruction. " : " instructions. ") + "Your program starts at address " + start + ".");
+            this.ui.operatorConsole.showMessage("Loaded " + count + (count == 1 ? " instruction. " : " instructions. ") + "Your program starts at address " + start + ".");
             if (!this.bootReady) {
-                this.ui.showWarning("No default initial program found. This program will serve as one.", "Boot Program");
+                this.ui.operatorConsole.showWarning("No default initial program found. This program will serve as one.", "Boot Program");
                 this.setBootReady();
             }
         }
@@ -90,10 +90,10 @@ public class RomLoader {
         }
 
         if (this.bootReady) {
-            this.ui.showError("Failed because a boot program has already been loaded.", "Boot Program");
+            this.ui.operatorConsole.showError("Failed because a boot program has already been loaded.", "Boot Program");
             return;
         }
-        
+
         this.memory.cache.openTraceFile();
 
         // Directly setting memory instead of using instructions.
@@ -109,7 +109,7 @@ public class RomLoader {
         this.memory.write(15, 63);
         this.memory.write(1303, 1);
         this.memory.write(1304, 1);
-        
+
         this.memory.write(1329, 65535);
         this.memory.write(1331, 65535);
 
@@ -117,7 +117,7 @@ public class RomLoader {
 
         this.setDefaultBootReady();
 
-        this.ui.showMessage("Loaded default initial program.");
+        this.ui.operatorConsole.showMessage("Loaded default initial program.");
     }
 
     private void setDefaultBootReady() {
@@ -133,5 +133,10 @@ public class RomLoader {
 
     public boolean shouldRunBoot() {
         return this.bootReady && !this.defaultBootReady;
+    }
+    
+    public void clear() {
+        this.defaultBootReady = false;
+        this.bootReady = false;
     }
 }

@@ -20,7 +20,7 @@ import javax.swing.event.DocumentListener;
 public class RegisterGUI extends JPanel {
 
     private final Computer computer;
-    private final UI parentframe;
+    private final UI ui;
 
     private final String name;
     private final int index;
@@ -29,30 +29,30 @@ public class RegisterGUI extends JPanel {
     private JTextField valueField;
     private JPanel lightPanel;
 
-    public RegisterGUI(Register register, String name, Computer computer, UI parentframe) {
+    public RegisterGUI(Register register, String name, Computer computer, UI ui) {
         super();
         this.computer = computer;
-        this.parentframe = parentframe;
+        this.ui = ui;
         this.name = name;
         this.register = register;
         this.index = -1;
         this.initComponents();
     }
 
-    public RegisterGUI(Register register, int index, Computer computer, UI parentframe) {
+    public RegisterGUI(Register register, int index, Computer computer, UI ui) {
         super();
         this.computer = computer;
-        this.parentframe = parentframe;
+        this.ui = ui;
         this.name = null;
         this.register = register;
         this.index = index;
         this.initComponents();
     }
 
-    public RegisterGUI(Register register, String name, int index, Computer computer, UI parentframe) {
+    public RegisterGUI(Register register, String name, int index, Computer computer, UI ui) {
         super();
         this.computer = computer;
-        this.parentframe = parentframe;
+        this.ui = ui;
         this.name = name;
         this.register = register;
         this.index = index;
@@ -131,9 +131,9 @@ public class RegisterGUI extends JPanel {
                 int value = Integer.parseInt(this.valueField.getText());
                 // Prohibit response for efficiency (otherwise the setRadioButtons method would be called again, which is unnecessary).
                 register.setContent(value, true);
-                this.parentframe.showMessage("Value set.");
+                this.ui.operatorConsole.showMessage("Value set.");
             } catch (NumberFormatException nfx) {
-                this.parentframe.showError("Invalid value. Please input again.", "Input Error");
+                this.ui.operatorConsole.showError("Invalid value. Please input again.", "Input Error");
             }
         });
 

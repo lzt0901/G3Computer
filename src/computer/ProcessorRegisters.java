@@ -12,9 +12,9 @@ import gui.UI;
  * @author Administrator
  */
 public class ProcessorRegisters {
-    
+
     private UI ui;
-    
+
     public Register pc;
     // cc(0), cc(1), cc(2), cc(3): overflow, underflow, division by zero, equal-or-not.
     public Register cc;
@@ -30,7 +30,7 @@ public class ProcessorRegisters {
     public Register[] gpr;
     // FPR[0], FPR[1]
     public Register[] fpr;
-    
+
     public ProcessorRegisters() {
         this.pc = new Register(12);
         this.cc = new Register(4);
@@ -53,7 +53,7 @@ public class ProcessorRegisters {
             this.fpr[i] = new Register(16);
         }
     }
-    
+
     public void reset(int initalProgramAddress) {
         this.pc.setContent(initalProgramAddress);
         this.cc.setContent(0);
@@ -73,20 +73,26 @@ public class ProcessorRegisters {
             this.fpr[i].setContent(0);
         }
     }
-    
+
     public void setUI(UI ui) {
         this.ui = ui;
-        this.pc.setRegisterGUI(this.ui.registerPanel.pcGUI);
-        this.cc.setRegisterGUI(this.ui.registerPanel.ccGUI);
-        this.ir.setRegisterGUI(this.ui.registerPanel.irGUI);
-        this.mar.setRegisterGUI(this.ui.registerPanel.marGUI);
-        this.mbr.setRegisterGUI(this.ui.registerPanel.mbrGUI);
-        this.mfr.setRegisterGUI(this.ui.registerPanel.mfrGUI);
+        this.pc.setRegisterGUI(this.ui.operatorConsole.registerPanel.pcGUI);
+        this.cc.setRegisterGUI(this.ui.operatorConsole.registerPanel.ccGUI);
+        this.ir.setRegisterGUI(this.ui.operatorConsole.registerPanel.irGUI);
+        this.mar.setRegisterGUI(this.ui.operatorConsole.registerPanel.marGUI);
+        this.mbr.setRegisterGUI(this.ui.operatorConsole.registerPanel.mbrGUI);
+        this.mfr.setRegisterGUI(this.ui.operatorConsole.registerPanel.mfrGUI);
         for (int i = 0; i < this.gpr.length; ++i) {
-            this.gpr[i].setRegisterGUI(this.ui.registerPanel.gprGUI[i]);
+            this.gpr[i].setRegisterGUI(this.ui.operatorConsole.registerPanel.gprGUI[i]);
         }
         for (int i = 1; i < this.x.length; ++i) {
-            this.x[i].setRegisterGUI(this.ui.registerPanel.xGUI[i]);
+            this.x[i].setRegisterGUI(this.ui.operatorConsole.registerPanel.xGUI[i]);
+        }
+
+        this.iar.setRegisterGUI(this.ui.fieldEngineerConsole.registerPanel.iarGUI);
+        this.irr.setRegisterGUI(this.ui.fieldEngineerConsole.registerPanel.irrGUI);
+        for (int i = 0; i < this.fpr.length; ++i) {
+            this.fpr[i].setRegisterGUI(this.ui.fieldEngineerConsole.registerPanel.fprGUI[i]);
         }
     }
 }

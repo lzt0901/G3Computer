@@ -122,8 +122,8 @@ public class CPU {
 
     public boolean isInterrupted() {
         if (this.interrupt != null) {
-            this.ui.showError("Disabled by interrupt.", "CPU Error");
-            this.ui.ioPanel.focusOnInputAndSelectAll();
+            this.ui.operatorConsole.showError("Disabled by interrupt.", "CPU Error");
+            this.ui.operatorConsole.ioPanel.focusOnInputAndSelectAll();
             return true;
         }
         return false;
@@ -135,14 +135,14 @@ public class CPU {
 
     public boolean available() {
         if (this.thread != null && this.thread.isAlive()) {
-            this.ui.showError("CPU is still running. Please wait.", "CPU Error");
+            this.ui.operatorConsole.showError("CPU is still running. Please wait.", "CPU Error");
             return false;
         }
         return true;
     }
 
     private void reboot() {
-        this.ui.showWarning("System will reboot.", "Warning");
+        this.ui.operatorConsole.showWarning("System will reboot.", "Warning");
 
         this.registers.reset(this.initialProgramAddress);
         // Might need to reset others such as cache.

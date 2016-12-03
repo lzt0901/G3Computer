@@ -19,6 +19,6 @@ public class DeviceFailureException extends Exception {
     
     public void showAlert(UI ui) {
         // Hard coded to show alert for Card Reader.
-        ui.showError("Card Reader is not ready.", "Device Failure");
+        ui.operatorConsole.showError("Card Reader is not ready.", "Device Failure");
     }
 }

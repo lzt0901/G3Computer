@@ -37,3 +37,10 @@ Once encountered an error (unexpected instruction or accessing wrong memory addr
 3) Click "Card Reader" button to read an external text file, "Paragraph Sample.txt", into the card reader.  
 4) Click "Run" to run boot program first. The computer will halt after the boot program is done.  
 5) Click "Run" again to execute Program 2. It reads the file into memory, prints out the contents of the text file, and then asks the user for a word. Finally, it searches the paragraph to see if it contains the word. If so, it prints out the word, the sentence number, and the word number in the sentence.
+
+#### 2.3 Program 3.txt:  
+
+1) Click "Load Bin" first to load "Boot Program.txt" as a boot program (If it is already set, ignore this step and do step 2, 4 instead).  
+2) Click "Load Bin" again to load "Program 3.txt".  
+3) Click "Run" to run boot program first. The computer will halt after the boot program is done.  
+4) Click "Run" again to execute the program. This program demonstrates floating point add/subtract, vector add/subtract, and floating point conversion by observing the relevant registers and output. More Details can be found in the program file.
