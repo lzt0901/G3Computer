@@ -5,8 +5,8 @@
  */
 package computer;
 
-import computer.ComputerExceptions.MemoryAddressException;
 import gui.UI;
+import computer.ComputerExceptions.MemoryAddressException;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -134,7 +134,7 @@ public class RomLoader {
     public boolean shouldRunBoot() {
         return this.bootReady && !this.defaultBootReady;
     }
-    
+
     public void clear() {
         this.defaultBootReady = false;
         this.bootReady = false;

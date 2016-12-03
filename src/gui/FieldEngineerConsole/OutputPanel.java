@@ -6,8 +6,8 @@
 package gui.FieldEngineerConsole;
 
 import computer.Computer;
-import gui.TextLineNumber;
 import gui.UI;
+import gui.TextLineNumber;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;

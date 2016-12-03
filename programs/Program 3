@@ -13,6 +13,10 @@
 LIX _, 1, _, 0
 LDX _, 1, 0, 8
 
+// I/O control
+LDA 0, 0, 0, 0
+STR 0, 0, 0, 7
+
 /**
  * Variable Definition:
  * (STR 0, 1, 0, 0, STR 0, 1, 0, 1) Float1 1.3

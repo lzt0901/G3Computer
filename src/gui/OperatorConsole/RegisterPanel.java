@@ -6,8 +6,8 @@
 package gui.OperatorConsole;
 
 import computer.Computer;
-import gui.RegisterGUI;
 import gui.UI;
+import gui.RegisterGUI;
 import java.awt.GridLayout;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -58,32 +58,32 @@ public class RegisterPanel extends JPanel {
         this.add(this.rightPanel);
 
         this.leftPanel.add(Box.createVerticalGlue());
-        
+
         this.gprGUI = new RegisterGUI[4];
         for (int i = 0; i < 4; ++i) {
-            if (i == 0) // With name and index
-            {
+            // With name and index
+            if (i == 0) {
                 this.gprGUI[i] = new RegisterGUI(this.computer.cpu.registers.gpr[i], "GPR", i, this.computer, this.ui);
-            } else // With only index
-            {
+            } // With only index
+            else {
                 this.gprGUI[i] = new RegisterGUI(this.computer.cpu.registers.gpr[i], i, this.computer, this.ui);
             }
             this.leftPanel.add(this.gprGUI[i]);
         }
         this.xGUI = new RegisterGUI[4];
         for (int i = 1; i < 4; ++i) {
-            if (i == 1) // With name and index
-            {
+            // With name and index
+            if (i == 1) {
                 this.xGUI[i] = new RegisterGUI(this.computer.cpu.registers.x[i], "IX", i, this.computer, this.ui);
-            } else // With only index
-            {
+            } // With only index
+            else {
                 this.xGUI[i] = new RegisterGUI(this.computer.cpu.registers.x[i], i, this.computer, this.ui);
             }
             this.leftPanel.add(this.xGUI[i]);
         }
 
         this.rightPanel.add(Box.createVerticalGlue());
-        
+
         // With only name
         this.rightPanel.add(this.marGUI = new RegisterGUI(this.computer.cpu.registers.mar, "MAR", this.computer, this.ui));
         this.rightPanel.add(this.mbrGUI = new RegisterGUI(this.computer.cpu.registers.mbr, "MBR", this.computer, this.ui));

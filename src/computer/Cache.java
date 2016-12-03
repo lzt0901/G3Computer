@@ -30,6 +30,8 @@ public class Cache {
 
     private final String traceFile;
     private BufferedWriter writer;
+    private StringBuilder buffer;
+    private int bufferSize;
 
     public Cache(int lineSize, int cacheSize) {
         this.lineSize = lineSize;
@@ -43,7 +45,7 @@ public class Cache {
         } catch (IOException ex) {
         }
     }
-    
+
     public void setUI(UI ui) {
         this.ui = ui;
     }
@@ -105,29 +107,25 @@ public class Cache {
 
     private void traceMiss(int address) {
         String msg = String.format("Cache miss for memory address %d.", address);
-        this.ui.fieldEngineerConsole.outputPanel.setOutput(msg);
-        System.out.println(msg);
+        this.bufferedOutput(msg);
         this.traceToFile(msg);
     }
 
     private void traceHit(int address) {
         String msg = String.format("Cache hit for memory address %d.", address);
-        this.ui.fieldEngineerConsole.outputPanel.setOutput(msg);
-        System.out.println(msg);
+        this.bufferedOutput(msg);
         this.traceToFile(msg);
     }
 
     private void traceAdd(CacheLine line) {
         String msg = String.format("Added a new cache line with tag %d. Current number of lines: %d.", line.getTag(), this.tagQueue.size());
-        this.ui.fieldEngineerConsole.outputPanel.setOutput(msg);
-        System.out.println(msg);
+        this.bufferedOutput(msg);
         this.traceToFile(msg);
     }
 
     private void traceRemove(CacheLine line) {
         String msg = String.format("Removed a cache line with tag %d. Current number of lines: %d.", line.getTag(), this.tagQueue.size());
-        this.ui.fieldEngineerConsole.outputPanel.setOutput(msg);
-        System.out.println(msg);
+        this.bufferedOutput(msg);
         this.traceToFile(msg);
     }
 
@@ -139,9 +137,35 @@ public class Cache {
         }
     }
 
+    private void resetBuffer() {
+        this.buffer = new StringBuilder();
+        this.bufferSize = 1000;
+    }
+
+    private void flushBuffer() {
+        if (this.buffer.length() != 0) {
+            this.ui.fieldEngineerConsole.outputPanel.setOutput(this.buffer.toString());
+        }
+        this.resetBuffer();
+    }
+
+    private void bufferedOutput(String msg) {
+        if (this.bufferSize > 0) {
+            if (this.buffer.length() == 0) {
+                this.buffer.append(msg);
+            } else {
+                this.buffer.append(System.lineSeparator()).append(msg);
+            }
+            --this.bufferSize;
+        } else {
+            this.flushBuffer();
+        }
+    }
+
     public void openTraceFile() {
         try {
             this.writer = new BufferedWriter(new FileWriter(this.traceFile, true));
+            this.resetBuffer();
         } catch (IOException ex) {
         }
     }
@@ -149,6 +173,7 @@ public class Cache {
     public void closeTraceFile() {
         try {
             this.writer.close();
+            this.flushBuffer();
         } catch (IOException ex) {
         }
     }

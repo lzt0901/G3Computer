@@ -6,7 +6,6 @@
 package computer.ComputerExceptions;
 
 import gui.UI;
-import javax.swing.JOptionPane;
 
 /**
  *
