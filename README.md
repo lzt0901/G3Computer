@@ -17,7 +17,7 @@ How cache behaves as the system runs is recorded in "trace.txt".
 
 **All the files are located in the _"programs"_ directory.**
 
-If different boot programs are needed, you have to restart the whole simulator in order to load a different boot program. (Because currently there is no mechanism for clearing boot program that has been loaded before.)
+If different boot programs are needed, please click "Clear All" button in the Field Engineer console to clear all things in the simulator, including the boot program. Then load a different one.
 
 When there are multiple programs in the simulator, you can randomly execute any of them by remembering their initial address (which would be provided upon loaded) and setting the value of PC manually.
 

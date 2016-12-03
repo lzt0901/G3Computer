@@ -6,7 +6,6 @@
 package computer.ComputerExceptions;
 
 import gui.UI;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,7 +15,7 @@ public class DeviceFailureException extends Exception {
 
     public DeviceFailureException() {
     }
-    
+
     public void showAlert(UI ui) {
         // Hard coded to show alert for Card Reader.
         ui.operatorConsole.showError("Card Reader is not ready.", "Device Failure");

@@ -5,8 +5,8 @@
  */
 package gui.OperatorConsole;
 
-import computer.Computer;
 import computer.ComputerExceptions.MemoryAddressException;
+import computer.Computer;
 import gui.UI;
 import java.awt.event.ActionEvent;
 import javax.swing.JButton;

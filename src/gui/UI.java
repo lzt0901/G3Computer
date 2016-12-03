@@ -18,6 +18,7 @@ import javax.swing.JFrame;
 public class UI extends JFrame {
 
     private final Computer computer;
+
     public OperatorConsole operatorConsole;
     public FieldEngineerConsole fieldEngineerConsole;
 

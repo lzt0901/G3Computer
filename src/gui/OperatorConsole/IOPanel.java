@@ -5,10 +5,10 @@
  */
 package gui.OperatorConsole;
 
-import computer.Computer;
 import computer.ComputerExceptions.MemoryAddressException;
-import gui.TextLineNumber;
+import computer.Computer;
 import gui.UI;
+import gui.TextLineNumber;
 import java.awt.event.ActionEvent;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
