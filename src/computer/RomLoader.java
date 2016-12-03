@@ -10,8 +10,6 @@ import gui.UI;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -43,17 +41,16 @@ public class RomLoader {
             return;
         }
 
-        // File chooser to read a file
-        JFileChooser chooser = new JFileChooser();
-        if (chooser.showOpenDialog(this.ui) != JFileChooser.APPROVE_OPTION) {
-            JOptionPane.showMessageDialog(this.ui, "Canceled.", "Loading Files", JOptionPane.WARNING_MESSAGE);
+        // Call file chooser to read a file
+        File file = this.ui.chooseFile();
+        if (file == null) {
             return;
         }
 
         int count = 0;
         // Construct a list for instructions
         List<Integer> instructions = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(chooser.getSelectedFile()))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line = null;
             while ((line = reader.readLine()) != null) {
                 line = line.trim();
@@ -66,12 +63,12 @@ public class RomLoader {
                 }
             }
         } catch (IOException x) {
-            JOptionPane.showMessageDialog(this.ui, "IO Exception occurred.", "IO Error", JOptionPane.ERROR_MESSAGE);
+            this.ui.showError("IO Exception occurred.", "IO Error");
             return;
         }
 
         if (instructions.isEmpty()) {
-            JOptionPane.showMessageDialog(this.ui, "Loading failed. Please check the content and format of your file.", "Loading Error", JOptionPane.ERROR_MESSAGE);
+            this.ui.showError("Load failed. Please check the content and format of your file.", "Load Error");
             return;
         }
 
@@ -79,9 +76,9 @@ public class RomLoader {
         int start = this.memory.allocate(instructions);
         this.memory.cache.closeTraceFile();
         if (start != -1) {
-            JOptionPane.showMessageDialog(this.ui, "Loaded " + count + (count == 1 ? " instruction. " : " instructions. ") + "Your program starts at address " + start + ".");
+            this.ui.showMessage("Loaded " + count + (count == 1 ? " instruction. " : " instructions. ") + "Your program starts at address " + start + ".");
             if (!this.bootReady) {
-                JOptionPane.showMessageDialog(this.ui, "No default initial program found. This program will serve as one.", "Boot Program", JOptionPane.WARNING_MESSAGE);
+                this.ui.showWarning("No default initial program found. This program will serve as one.", "Boot Program");
                 this.setBootReady();
             }
         }
@@ -93,7 +90,7 @@ public class RomLoader {
         }
 
         if (this.bootReady) {
-            JOptionPane.showMessageDialog(this.ui, "Failed because a boot program has already been loaded.", "Boot Program", JOptionPane.ERROR_MESSAGE);
+            this.ui.showError("Failed because a boot program has already been loaded.", "Boot Program");
             return;
         }
         
@@ -120,7 +117,7 @@ public class RomLoader {
 
         this.setDefaultBootReady();
 
-        JOptionPane.showMessageDialog(this.ui, "Loaded default initial program.");
+        this.ui.showMessage("Loaded default initial program.");
     }
 
     private void setDefaultBootReady() {

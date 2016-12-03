@@ -20,6 +20,7 @@ import javax.swing.event.DocumentListener;
 public class RegisterGUI extends JPanel {
 
     private final Computer computer;
+    private final UI parentframe;
 
     private final String name;
     private final int index;
@@ -28,27 +29,30 @@ public class RegisterGUI extends JPanel {
     private JTextField valueField;
     private JPanel lightPanel;
 
-    public RegisterGUI(Register register, String name, Computer computer) {
+    public RegisterGUI(Register register, String name, Computer computer, UI parentframe) {
         super();
         this.computer = computer;
+        this.parentframe = parentframe;
         this.name = name;
         this.register = register;
         this.index = -1;
         this.initComponents();
     }
 
-    public RegisterGUI(Register register, int index, Computer computer) {
+    public RegisterGUI(Register register, int index, Computer computer, UI parentframe) {
         super();
         this.computer = computer;
+        this.parentframe = parentframe;
         this.name = null;
         this.register = register;
         this.index = index;
         this.initComponents();
     }
 
-    public RegisterGUI(Register register, String name, int index, Computer computer) {
+    public RegisterGUI(Register register, String name, int index, Computer computer, UI parentframe) {
         super();
         this.computer = computer;
+        this.parentframe = parentframe;
         this.name = name;
         this.register = register;
         this.index = index;
@@ -127,9 +131,9 @@ public class RegisterGUI extends JPanel {
                 int value = Integer.parseInt(this.valueField.getText());
                 // Prohibit response for efficiency (otherwise the setRadioButtons method would be called again, which is unnecessary).
                 register.setContent(value, true);
-                JOptionPane.showMessageDialog(null, "Value set.");
+                this.parentframe.showMessage("Value set.");
             } catch (NumberFormatException nfx) {
-                JOptionPane.showMessageDialog(null, "Invalid value. Please input again.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                this.parentframe.showError("Invalid value. Please input again.", "Input Error");
             }
         });
 

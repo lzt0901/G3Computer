@@ -11,7 +11,6 @@ import computer.ComputerExceptions.InterruptException;
 import computer.ComputerExceptions.UnexpectedInstructionException;
 import computer.ComputerExceptions.HaltException;
 import gui.UI;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -78,18 +77,18 @@ public class CPU {
         } catch (InterruptException iex) {
             this.interrupt = iex;
         } catch (HaltException hx) {
-            hx.showAlert();
+            hx.showAlert(this.ui);
             this.isRunning = false;
         } catch (UnexpectedInstructionException uix) {
-            uix.showAlert();
+            uix.showAlert(this.ui);
             this.reboot();
             this.isRunning = false;
         } catch (MemoryAddressException maex) {
-            maex.showAlert();
+            maex.showAlert(this.ui);
             this.reboot();
             this.isRunning = false;
         } catch (DeviceFailureException dfx) {
-            dfx.showAlert();
+            dfx.showAlert(this.ui);
             this.reboot();
             this.isRunning = false;
         } catch (Exception ex) {
@@ -123,7 +122,7 @@ public class CPU {
 
     public boolean isInterrupted() {
         if (this.interrupt != null) {
-            JOptionPane.showMessageDialog(this.ui, "Disabled by interrupt.", "CPU Error", JOptionPane.ERROR_MESSAGE);
+            this.ui.showError("Disabled by interrupt.", "CPU Error");
             this.ui.ioPanel.focusOnInputAndSelectAll();
             return true;
         }
@@ -136,14 +135,14 @@ public class CPU {
 
     public boolean available() {
         if (this.thread != null && this.thread.isAlive()) {
-            JOptionPane.showMessageDialog(this.ui, "CPU is still running. Please wait.", "CPU Error", JOptionPane.ERROR_MESSAGE);
+            this.ui.showError("CPU is still running. Please wait.", "CPU Error");
             return false;
         }
         return true;
     }
 
     private void reboot() {
-        JOptionPane.showMessageDialog(this.ui, "System will reboot.", "Warning", JOptionPane.WARNING_MESSAGE);
+        this.ui.showWarning("System will reboot.", "Warning");
 
         this.registers.reset(this.initialProgramAddress);
         // Might need to reset others such as cache.
