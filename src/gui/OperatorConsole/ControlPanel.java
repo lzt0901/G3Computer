@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui;
+package gui.OperatorConsole;
 
 import computer.Computer;
 import computer.ComputerExceptions.MemoryAddressException;
+import gui.UI;
 import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -18,13 +19,13 @@ import javax.swing.JPanel;
 public class ControlPanel extends JPanel {
 
     private final Computer computer;
-    private final UI parentFrame;
+    private final UI ui;
 
-    public ControlPanel(Computer computer, UI parentFrame) {
+    public ControlPanel(Computer computer, UI ui) {
         super();
         this.computer = computer;
         this.initComponents();
-        this.parentFrame = parentFrame;
+        this.ui = ui;
     }
 
     private void initComponents() {
@@ -44,7 +45,7 @@ public class ControlPanel extends JPanel {
             try {
                 this.computer.memory.romLoader.loadInitialProgram();
             } catch (MemoryAddressException ex) {
-                ex.showAlert(this.parentFrame);
+                ex.showAlert(this.ui);
             }
         });
 

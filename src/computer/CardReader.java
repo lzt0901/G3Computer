@@ -48,7 +48,7 @@ public class CardReader {
         }
 
         // Call file chooser to read a file
-        File file = this.ui.chooseFile();
+        File file = this.ui.operatorConsole.chooseFile();
         if (file == null) {
             return;
         }
@@ -61,14 +61,14 @@ public class CardReader {
             // Required by myself
             this.contents = this.contents.toLowerCase();
         } catch (IOException ex) {
-            this.ui.showError("IO Exception occurred.", "IO Error");
+            this.ui.operatorConsole.showError("IO Exception occurred.", "IO Error");
             return;
         }
 
         // Right now we would assume the device would be always in the card reader after it is inserted.
         // So, there is no operation for flipping the status back to 0.
         this.status = 1;
-        this.ui.showMessage("Card Reader is ready.");
+        this.ui.operatorConsole.showMessage("Card Reader is ready.");
     }
 
     // Return the ASCII of characters.

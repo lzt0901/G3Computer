@@ -18,6 +18,6 @@ public class HaltException extends Exception {
     }
 
     public void showAlert(UI ui) {
-        ui.showWarning("Halt.", "Halt Instruction");
+        ui.operatorConsole.showWarning("Halt.", "Halt Instruction");
     }
 }

@@ -17,6 +17,6 @@ public class MemoryAddressException extends Exception {
     }
 
     public void showAlert(UI ui) {
-        ui.showError("Wrong address.", "Memory Error");
+        ui.operatorConsole.showError("Wrong address.", "Memory Error");
     }
 }

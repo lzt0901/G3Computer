@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui;
+package gui.OperatorConsole;
 
 import computer.Computer;
 import computer.ComputerExceptions.MemoryAddressException;
+import gui.TextLineNumber;
+import gui.UI;
 import java.awt.event.ActionEvent;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -22,17 +24,17 @@ import javax.swing.text.DefaultCaret;
 public class IOPanel extends JPanel {
 
     private final Computer computer;
-    private final UI parentFrame;
+    private final UI ui;
 
     public JTextArea outputTextArea;
     public JTextField inputTextField;
 
     private boolean isNewLine;
 
-    public IOPanel(Computer computer, UI parentFrame) {
+    public IOPanel(Computer computer, UI ui) {
         super();
         this.computer = computer;
-        this.parentFrame = parentFrame;
+        this.ui = ui;
         this.initComponents();
 
         this.isNewLine = false;
@@ -70,7 +72,7 @@ public class IOPanel extends JPanel {
     private void validateInputAndRecover() {
         // Validate the timing.
         if (!this.computer.cpu.isInterrupted(true)) {
-            this.parentFrame.showError("Input denied: No input instruction executed.", "Input Error");
+            this.ui.operatorConsole.showError("Input denied: No input instruction executed.", "Input Error");
             return;
         }
 
@@ -80,13 +82,13 @@ public class IOPanel extends JPanel {
                 try {
                     this.getNumberInput();
                 } catch (NumberFormatException ex) {
-                    this.parentFrame.showError("Incorrect input.", "Input Error");
+                    this.ui.operatorConsole.showError("Incorrect input.", "Input Error");
                     this.focusOnInputAndSelectAll();
                     return;
                 }
             } else {
                 if (this.getStringInput().equals("")) {
-                    this.parentFrame.showError("Input can't be empty.", "Input Error");
+                    this.ui.operatorConsole.showError("Input can't be empty.", "Input Error");
                     this.focusOnInputAndSelectAll();
                     return;
                 }

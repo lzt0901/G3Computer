@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui;
+package gui.OperatorConsole;
 
 import computer.Computer;
+import gui.RegisterGUI;
+import gui.UI;
 import java.awt.GridLayout;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -18,7 +20,7 @@ import javax.swing.JPanel;
 public class RegisterPanel extends JPanel {
 
     private final Computer computer;
-    private final UI parentframe;
+    private final UI ui;
 
     public JPanel leftPanel;
     public JPanel rightPanel;
@@ -32,10 +34,10 @@ public class RegisterPanel extends JPanel {
     public RegisterGUI pcGUI;
     public RegisterGUI ccGUI;
 
-    public RegisterPanel(Computer computer, UI parentframe) {
+    public RegisterPanel(Computer computer, UI ui) {
         super();
         this.computer = computer;
-        this.parentframe = parentframe;
+        this.ui = ui;
         this.initComponents();
     }
 
@@ -56,14 +58,15 @@ public class RegisterPanel extends JPanel {
         this.add(this.rightPanel);
 
         this.leftPanel.add(Box.createVerticalGlue());
+        
         this.gprGUI = new RegisterGUI[4];
         for (int i = 0; i < 4; ++i) {
             if (i == 0) // With name and index
             {
-                this.gprGUI[i] = new RegisterGUI(this.computer.cpu.registers.gpr[i], "GPR", i, this.computer, this.parentframe);
+                this.gprGUI[i] = new RegisterGUI(this.computer.cpu.registers.gpr[i], "GPR", i, this.computer, this.ui);
             } else // With only index
             {
-                this.gprGUI[i] = new RegisterGUI(this.computer.cpu.registers.gpr[i], i, this.computer, this.parentframe);
+                this.gprGUI[i] = new RegisterGUI(this.computer.cpu.registers.gpr[i], i, this.computer, this.ui);
             }
             this.leftPanel.add(this.gprGUI[i]);
         }
@@ -71,21 +74,22 @@ public class RegisterPanel extends JPanel {
         for (int i = 1; i < 4; ++i) {
             if (i == 1) // With name and index
             {
-                this.xGUI[i] = new RegisterGUI(this.computer.cpu.registers.x[i], "IX", i, this.computer, this.parentframe);
+                this.xGUI[i] = new RegisterGUI(this.computer.cpu.registers.x[i], "IX", i, this.computer, this.ui);
             } else // With only index
             {
-                this.xGUI[i] = new RegisterGUI(this.computer.cpu.registers.x[i], i, this.computer, this.parentframe);
+                this.xGUI[i] = new RegisterGUI(this.computer.cpu.registers.x[i], i, this.computer, this.ui);
             }
             this.leftPanel.add(this.xGUI[i]);
         }
 
         this.rightPanel.add(Box.createVerticalGlue());
+        
         // With only name
-        this.rightPanel.add(this.marGUI = new RegisterGUI(this.computer.cpu.registers.mar, "MAR", this.computer, this.parentframe));
-        this.rightPanel.add(this.mbrGUI = new RegisterGUI(this.computer.cpu.registers.mbr, "MBR", this.computer, this.parentframe));
-        this.rightPanel.add(this.irGUI = new RegisterGUI(this.computer.cpu.registers.ir, "IR", this.computer, this.parentframe));
-        this.rightPanel.add(this.pcGUI = new RegisterGUI(this.computer.cpu.registers.pc, "PC", this.computer, this.parentframe));
-        this.rightPanel.add(this.ccGUI = new RegisterGUI(this.computer.cpu.registers.cc, "CC", this.computer, this.parentframe));
-        this.rightPanel.add(this.mfrGUI = new RegisterGUI(this.computer.cpu.registers.mfr, "MFR", this.computer, this.parentframe));
+        this.rightPanel.add(this.marGUI = new RegisterGUI(this.computer.cpu.registers.mar, "MAR", this.computer, this.ui));
+        this.rightPanel.add(this.mbrGUI = new RegisterGUI(this.computer.cpu.registers.mbr, "MBR", this.computer, this.ui));
+        this.rightPanel.add(this.irGUI = new RegisterGUI(this.computer.cpu.registers.ir, "IR", this.computer, this.ui));
+        this.rightPanel.add(this.pcGUI = new RegisterGUI(this.computer.cpu.registers.pc, "PC", this.computer, this.ui));
+        this.rightPanel.add(this.ccGUI = new RegisterGUI(this.computer.cpu.registers.cc, "CC", this.computer, this.ui));
+        this.rightPanel.add(this.mfrGUI = new RegisterGUI(this.computer.cpu.registers.mfr, "MFR", this.computer, this.ui));
     }
 }

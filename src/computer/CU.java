@@ -326,8 +326,8 @@ public class CU implements DataHandlingOperations, ControlFlowOperations {
         if (devid == 0) {
             if (!this.interrupted) {
                 this.interrupted = true;
-                this.ui.showMessage("Please input your data.");
-                this.ui.ioPanel.focusOnInputAndSelectAll();
+                this.ui.operatorConsole.showMessage("Please input your data.");
+                this.ui.operatorConsole.ioPanel.focusOnInputAndSelectAll();
                 throw new InterruptException();
             } else {
                 this.interrupted = false;
@@ -335,10 +335,10 @@ public class CU implements DataHandlingOperations, ControlFlowOperations {
                 try {
                     // Read in number format.
                     if (this.memory.directRead(7) == 0) {
-                        this.registers.irr.setContent(this.ui.ioPanel.getNumberInput());
+                        this.registers.irr.setContent(this.ui.operatorConsole.ioPanel.getNumberInput());
                     } // Read in string format.
                     else {
-                        String str = this.ui.ioPanel.getStringInput();
+                        String str = this.ui.operatorConsole.ioPanel.getStringInput();
                         List<Integer> strAscii = new ArrayList();
                         for (int i = 0; i < str.length(); ++i) {
                             strAscii.add((int) str.charAt(i));
@@ -365,9 +365,9 @@ public class CU implements DataHandlingOperations, ControlFlowOperations {
         } catch (MemoryAddressException ex) {
         }
         if (type == 0) {
-            this.ui.ioPanel.setOutput(this.registers.gpr[instruction.getR()].getContent());
+            this.ui.operatorConsole.ioPanel.setOutput(this.registers.gpr[instruction.getR()].getContent());
         } else {
-            this.ui.ioPanel.setOutput((char) this.registers.gpr[instruction.getR()].getContent());
+            this.ui.operatorConsole.ioPanel.setOutput((char) this.registers.gpr[instruction.getR()].getContent());
         }
 
         this.registers.irr.setContent(this.registers.gpr[instruction.getR()].getContent());
@@ -425,7 +425,7 @@ public class CU implements DataHandlingOperations, ControlFlowOperations {
         for (int i = this.registers.gpr[instruction.getR()].getContent(); (ascii = this.memory.directRead(i)) != 0; ++i) {
             sb.append((char) ascii);
         }
-        this.ui.ioPanel.setOutput(sb.toString());
+        this.ui.operatorConsole.ioPanel.setOutput(sb.toString());
         this.registers.irr.setContent(this.registers.gpr[instruction.getR()].getContent());
         return this.registers.gpr[instruction.getR()];
     }

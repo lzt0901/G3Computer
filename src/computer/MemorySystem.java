@@ -35,7 +35,6 @@ public class MemorySystem {
         this.size = size;
         this.mainMemory = new int[size];
         Arrays.fill(this.mainMemory, 0);
-
         this.cache = new Cache(8, 16);
     }
 
@@ -49,6 +48,7 @@ public class MemorySystem {
         this.ui = ui;
         this.romLoader.setUI(this.ui);
         this.cardReader.setUI(this.ui);
+        this.cache.setUI(this.ui);
     }
 
     public int getSize() {
@@ -111,7 +111,7 @@ public class MemorySystem {
 
         // Means no such space.
         if (start >= this.mainMemory.length) {
-            this.ui.showError("Memory full. Allocation failed.", "Memory Error");
+            this.ui.operatorConsole.showError("Memory full. Allocation failed.", "Memory Error");
             return -1;
         }
         for (int i = 0; i < instructions.size(); ++i) {
@@ -121,5 +121,11 @@ public class MemorySystem {
             }
         }
         return start;
+    }
+
+    public void clear() {
+        Arrays.fill(this.mainMemory, 0);
+        this.cache.clear();
+        this.romLoader.clear();
     }
 }

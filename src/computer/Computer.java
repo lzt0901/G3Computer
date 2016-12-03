@@ -29,4 +29,9 @@ public class Computer {
         this.cpu.setUI(this.ui);
         this.memory.setUI(this.ui);
     }
+
+    public void clearAll() {
+        this.memory.clear();
+        this.cpu.registers.reset(0);
+    }
 }

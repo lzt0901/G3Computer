@@ -17,6 +17,6 @@ public class UnexpectedInstructionException extends Exception {
     }
 
     public void showAlert(UI ui) {
-        ui.showError("Unexpected instruction encountered.", "Unexpected Instruction");
+        ui.operatorConsole.showError("Unexpected instruction encountered.", "Unexpected Instruction");
     }
 }

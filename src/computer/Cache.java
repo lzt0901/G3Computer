@@ -5,6 +5,7 @@
  */
 package computer;
 
+import gui.UI;
 import computer.ComputerExceptions.MemoryAddressException;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -19,6 +20,8 @@ import java.util.Queue;
  * @author Administrator
  */
 public class Cache {
+
+    private UI ui;
 
     private final int lineSize;
     private final int cacheSize;
@@ -39,6 +42,10 @@ public class Cache {
             bwriter.append("Cache Log");
         } catch (IOException ex) {
         }
+    }
+    
+    public void setUI(UI ui) {
+        this.ui = ui;
     }
 
     private CacheLine find(int address) {
@@ -91,26 +98,35 @@ public class Cache {
         }
     }
 
+    public void clear() {
+        this.tagQueue.clear();
+        this.lineMap.clear();
+    }
+
     private void traceMiss(int address) {
         String msg = String.format("Cache miss for memory address %d.", address);
+        this.ui.fieldEngineerConsole.outputPanel.setOutput(msg);
         System.out.println(msg);
         this.traceToFile(msg);
     }
 
     private void traceHit(int address) {
         String msg = String.format("Cache hit for memory address %d.", address);
+        this.ui.fieldEngineerConsole.outputPanel.setOutput(msg);
         System.out.println(msg);
         this.traceToFile(msg);
     }
 
     private void traceAdd(CacheLine line) {
         String msg = String.format("Added a new cache line with tag %d. Current number of lines: %d.", line.getTag(), this.tagQueue.size());
+        this.ui.fieldEngineerConsole.outputPanel.setOutput(msg);
         System.out.println(msg);
         this.traceToFile(msg);
     }
 
     private void traceRemove(CacheLine line) {
         String msg = String.format("Removed a cache line with tag %d. Current number of lines: %d.", line.getTag(), this.tagQueue.size());
+        this.ui.fieldEngineerConsole.outputPanel.setOutput(msg);
         System.out.println(msg);
         this.traceToFile(msg);
     }
