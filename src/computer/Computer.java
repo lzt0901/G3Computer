@@ -31,7 +31,18 @@ public class Computer {
     }
 
     public void clearAll() {
+        if (this.cpu.isInterrupted(true)) {
+            this.ui.fieldEngineerConsole.showError("Disabled by interrupt.", "CPU Error");
+            this.ui.operatorConsole.ioPanel.focusOnInputAndSelectAll();
+            return;
+        }
+        
         this.memory.clear();
         this.cpu.registers.reset(0);
+        
+        this.ui.operatorConsole.ioPanel.reset();
+        this.ui.fieldEngineerConsole.outputPanel.reset();
+        
+        this.ui.fieldEngineerConsole.showMessage("Done. Now you can load a new boot program.");
     }
 }
