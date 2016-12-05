@@ -33,14 +33,8 @@ public class ControlPanel extends JPanel {
             if (!this.computer.cpu.available()) {
                 return;
             }
-            if (this.computer.cpu.isInterrupted(true)) {
-                this.ui.fieldEngineerConsole.showError("Disabled by interrupt.", "CPU Error");
-                return;
-            }
+            
             this.computer.clearAll();
-            this.ui.operatorConsole.ioPanel.outputTextArea.setText("");
-            this.ui.fieldEngineerConsole.outputPanel.outputTextArea.setText("");
-            this.ui.fieldEngineerConsole.showMessage("Done. Now you can load a new boot program.");
         });
         this.add(resetButton);
     }

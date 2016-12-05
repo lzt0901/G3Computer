@@ -61,4 +61,9 @@ public class OutputPanel extends JPanel {
         this.outputTextArea.append(content);
         this.isNewLine = true;
     }
+    
+    public void reset() {
+        this.outputTextArea.setText("");
+        this.isNewLine = false;
+    }
 }

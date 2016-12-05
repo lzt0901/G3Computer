@@ -137,4 +137,9 @@ public class IOPanel extends JPanel {
         this.outputTextArea.append(content);
         this.isNewLine = true;
     }
+    
+    public void reset() {
+        this.outputTextArea.setText("");
+        this.isNewLine = false;
+    }
 }
