@@ -5,7 +5,9 @@ Simulator of a CSIC machine
 
 ### 1. General Introductions  
 
-You can click each radio button to set the value of those registers and click the Set buttons to confirm making changes. The Run button would run all the instructions stored in the memory sequentially (until a halt instruction), and Single Step is used to execute the current instruction. Upon start, nothing is in the memory.
+Complie the src directory or run dist/G3Computer.jar.
+
+Then you can click each radio button to set the value of those registers and click the Set buttons to confirm making changes. The Run button would run all the instructions stored in the memory sequentially (until a halt instruction), and Single Step is used to execute the current instruction. Upon start, nothing is in the memory.
 
 New instructions, or programs, can be loaded into memory in one of the three format: hexadecimal, octal and binary.
 
